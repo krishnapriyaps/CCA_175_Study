@@ -17,8 +17,11 @@ sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_
 xxxxxxxx----------Didnt Compress data
 sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --warehouse-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var6" --as-sequencefile  --compress --compression-codec gzip
 
+xxxxxxxx----------Didnt Compress data
 sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var6_4" --as-parquetfile  --compress --compression-codec snappy
 
+xxxxxxxx----------Worked
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var6_2"   --compress --compression-codec snappy
 
 # Variation7 - Incremental archive
 sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var2"  --check-column  category_department_id --incremental append --last-value 2 --append
