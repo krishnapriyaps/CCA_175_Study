@@ -102,5 +102,6 @@ Observations:
 5) Compression codec gzip fails with --as-avrodatafile. LOG:org.apache.avro.AvroRuntimeException: Unrecognized codec: gzip
 6) Compression doesnot work with --as-avrodatafile
 7) --apend should be used with incremental or data will be over written
+8) Default file format is Text file , when no file format is specified
 
 

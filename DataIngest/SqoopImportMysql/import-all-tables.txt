@@ -1,0 +1,58 @@
+
+sqoop import-all-tables
+
+# IMPORTANT OPTIONS
+--connect <jdbc-uri>
+-P        			# Read password from console
+--password <password>           # Set authentication
+--username <username>
+
+#-----------# Import control arguments:
+#-----------# Ouput Dir & file format args
+--append			# If output dir already exist
+--as-avrodatafile 
+--as-parquetfile
+--as-sequencefile
+--as-textfile 
+--warehouse-dir <dir>  		# Folder for table created in warehouser dir and data created in that folder. Note: target-dir and warehouse-dir cannot be used together
+
+#-----------# Mapper count args
+--autoreset-to-one-mapper  	# Reset the number of mappers to one mapper if no split key available.
+-m,--num-mappers <n>  		# count > 1 fails if table does not have primary key column
+
+#-----------# Compression args
+-z,--compress			# Enable compression
+--compression-codec <codec> 	# bzip2,snappy,lz4,gzip
+
+#-----------# Output line formatting arguments:
+--enclosed-by <char>
+--escaped-by <char>
+--fields-terminated-by <char>
+--lines-terminated-by <char>
+--mysql-delimiters		# Uses MySQL's default delimiter set: fields: ,  lines: \n  escaped-by: \ optionally-enclosed-by: '
+
+#-----------# Hive arguments:
+--hive-import 
+--create-hive-table 		# Fail if the target hive table exists
+--hive-overwrite		# Overwrite existing data in the Hive table
+--hive-database <database-name>
+
+#-----------# Code generation arguments
+--null-non-string <null-str>          # Null non-string representation
+--null-string <null-str>              # Null string representation
+
+# Input Args
+Input parsing arguments:
+--input-enclosed-by <char>               Sets a required field encloser
+--input-escaped-by <char>                Sets the input escape character
+--input-fields-terminated-by <char>      Sets the input field separator
+--input-lines-terminated-by <char>       Sets the input end-of-line  char
+--input-optionally-enclosed-by <char>    Sets a field enclosing character
+#-----------# Code generation arguments
+--input-null-non-string <null-str>    Input null non-string representation
+--input-null-string <null-str>        Input null string representation
+
+
+
+Observations:
+1. Option not available in all tables--target-dir --table
