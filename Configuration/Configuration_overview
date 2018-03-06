@@ -1,0 +1,14 @@
+
+Three locations to set configuration in spark
+
+1) Spark properties :
+	- control most application parameters,  and 
+	- Set by using a SparkConf object, or through Java system properties.
+
+2) Environment variables :  
+	- can be used to set per-machine settings, such as the IP address, 
+	- Set through conf/spark-env.sh script on each node.
+
+3) Logging : 
+	- Configured through log4j.properties.
+

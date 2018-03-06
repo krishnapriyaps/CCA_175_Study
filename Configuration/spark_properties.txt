@@ -1,0 +1,34 @@
+
+ Spark properties   	(set via SparkConf object or Java system properties)
+----------------------------------------------------------------------------
+
+A) SparkConf has method to Set Common properties : master URL and application name 
+   eg:
+	val conf = new SparkConf().setMaster("local[2]").setAppName("CountingSheep")
+	val sc = new SparkContext(conf)
+
+B) SparkConf has 'set()' method to set any arbitrary key-value pair
+   eg:
+	val conf = new SparkConf().set(key, value) ////Not tried out
+	val sc = new SparkContext(conf)
+----------------------------------------------------------------------------
+Unit of time
+-------------
+25ms (milliseconds)
+5s (seconds)
+10m or 10min (minutes)
+3h (hours)
+5d (days)
+1y (years)
+
+----------------------------------------------------------------------------
+Unit of size
+-------------
+1b (bytes)
+1k or 1kb (kibibytes = 1024 bytes)
+1m or 1mb (mebibytes = 1024 kibibytes)
+1g or 1gb (gibibytes = 1024 mebibytes)
+1t or 1tb (tebibytes = 1024 gibibytes)
+1p or 1pb (pebibytes = 1024 tebibytes)
+
+----------------------------------------------------------------------------
