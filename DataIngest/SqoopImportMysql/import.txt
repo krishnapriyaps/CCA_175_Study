@@ -1,0 +1,106 @@
+sqoop import
+
+# IMPORTANT OPTIONS
+--connect <jdbc-uri>
+-P        			# Read password from console
+--password <password>           # Set authentication
+--username <username>
+
+#-----------# Import control arguments:
+#-----------# Ouput Dir & file format args
+--append			# If output dir already exist
+--as-avrodatafile 
+--as-parquetfile
+--as-sequencefile
+--as-textfile 
+--target-dir <dir> 		# Data files directly copied in target dir
+--warehouse-dir <dir>  		# Folder for table created in warehouser dir and data created in that folder. Note: target-dir and warehouse-dir cannot be used together
+
+#-----------# Mapper count args
+--autoreset-to-one-mapper  	# Reset the number of mappers to one mapper if no split key available.
+-m,--num-mappers <n>  		# count > 1 fails if table does not have primary key column
+
+#-----------# Import table args
+--columns <col,col,col...>
+--table <table-name>
+
+#-----------# Import by query args
+-e,--query <statement>		# Import results of SQL 'statement';  statement should have tag - 'where  \$CONDITIONS' to replace where condition (\$ to escape $ in linux CLI)
+#---NOTE: for import by query --split-by   is mandatory
+
+#-----------# Bourndary or split information
+--boundary-query <statement>	# Set boundary query for retrieving max and min value of the primary key
+--split-by <column-name>
+
+#-----------# Compression args
+-z,--compress			# Enable compression
+--compression-codec <codec> 	# bzip2,snappy,lz4,gzip
+
+#-----------# Filter args
+--where <where clause>
+
+#-----------# Incremental import arguments:
+--check-column <column>
+--incremental <import-type> 	#Define an incremental import of type 'append' or 'lastmodified'
+--last-value <value>		
+
+#-----------# Output line formatting arguments:
+--enclosed-by <char>
+--escaped-by <char>
+--fields-terminated-by <char>
+--lines-terminated-by <char>
+--mysql-delimiters		# Uses MySQL's default delimiter set: fields: ,  lines: \n  escaped-by: \ optionally-enclosed-by: '
+
+#-----------# Hive arguments:
+--hive-import 
+--create-hive-table 		# Fail if the target hive table exists
+--hive-overwrite		# Overwrite existing data in the Hive table
+--hive-database <database-name>
+--hive-table <table-name>
+
+--hive-partition-key <partition-key>       # Sets the partition key to use when importing to hive
+--hive-partition-value <partition-value>   # Sets the partition value to use when importing to hive
+--map-column-hive <arg> 		   # Override mapping for specific column to hive types.
+
+#-----------# Code generation arguments
+--null-non-string <null-str>          # Null non-string representation
+--null-string <null-str>              # Null string representation
+
+# Validation Args
+--validate                                                 Validate the copy using the configured validator
+--validation-failurehandler <validation-failurehandler>    Fully qualified class name for ValidationFailureHandler
+--validation-threshold <validation-threshold>              Fully qualified class name for ValidationThreshold
+--validator <validator>                                    Fully qualified class name for the Validator
+
+# Input Args
+Input parsing arguments:
+--input-enclosed-by <char>               Sets a required field encloser
+--input-escaped-by <char>                Sets the input escape character
+--input-fields-terminated-by <char>      Sets the input field separator
+--input-lines-terminated-by <char>       Sets the input end-of-line  char
+--input-optionally-enclosed-by <char>    Sets a field enclosing character
+#-----------# Code generation arguments
+--input-null-non-string <null-str>    Input null non-string representation
+--input-null-string <null-str>        Input null string representation
+
+#Generic Hadoop command-line arguments: (must preceed any tool-specific arguments)
+-conf <configuration file>     specify an application configuration file
+-D <property=value>            use value for given property
+-fs <local|namenode:port>      specify a namenode
+-jt <local|resourcemanager:port>    specify a ResourceManager
+-files <comma separated list of files>    specify comma separated files to be copied to the map reduce cluster
+-libjars <comma separated list of jars>    specify comma separated jar files to include in the classpath.
+-archives <comma separated list of archives>    specify comma separated archives to be unarchived on the compute machines.
+
+
+
+Observations:
+1) Import results of SQL 'statement';  statement should have tag - 'where  \$CONDITIONS' to replace where condition (\$ to escape $ in linux CLI)
+2) For import by query --split-by   is mandatory
+3) Compression does not work with --as-sequencefile
+4) target-dir and warehouse-dir cannot be used together
+5) Compression codec gzip fails with --as-avrodatafile. LOG:org.apache.avro.AvroRuntimeException: Unrecognized codec: gzip
+6) Compression doesnot work with --as-avrodatafile
+7) --apend should be used with incremental or data will be over written
+
+

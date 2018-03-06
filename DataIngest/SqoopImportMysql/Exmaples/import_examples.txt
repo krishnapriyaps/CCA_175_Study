@@ -1,0 +1,32 @@
+# Variation1 - sqoop import as TEXTFILE in TARGET-DIR ; Table has primary key; default num mapper =4; default delimiter ',', \n\, and not enclosing; table not created in hive
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var1"
+
+# Variation2 - Variation1 + Where 
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var2"  --where  "category_department_id=2"
+
+# Variation3 -  sqoop import by QUERY as TEXTFILE in TARGET-DIR  by query ; --split-by is mandatory
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --query "select * from categories WHERE \$CONDITIONS" --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var3" --split-by category_id
+
+# Variation4 - Variation1 + boundary query 
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var4" --boundary-query "select min(category_id), max(category_id) from categories"
+
+# Variation5 - Append to already existing directory
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var1" --append --where  "category_department_id=2"
+
+# Variation6 - Sequence file with bzip compression to warehourdir
+xxxxxxxx----------Didnt Compress data
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --warehouse-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var6" --as-sequencefile  --compress --compression-codec gzip
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var6_4" --as-parquetfile  --compress --compression-codec snappy
+
+
+# Variation7 - Incremental archive
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var2"  --check-column  category_department_id --incremental append --last-value 2 --append
+
+# Variation8 - Output file formating
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var8" --enclosed-by "'" --escaped-by "'" --fields-terminated-by "|" 
+
+# Variation9 - NULL replace. Source table null data characteristics : int - null; and String - "NULL"
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/categories_var9" --input-null-string "NULL" --null-non-string "0"  --null-string "xxx"  --where  "category_id>58"
+
+
