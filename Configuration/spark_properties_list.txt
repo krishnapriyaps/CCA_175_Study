@@ -1,0 +1,52 @@
+---------------------------------
+Application Properties
+---------------------------------
+PropertyName----------------Default
+spark.app.name--------------(none)
+spark.driver.cores----------1
+spark.driver.maxResultSize--1g
+spark.driver.memory---------1g
+spark.executor.memory-------1g
+spark.master----------------(none)
+
+---------------------------------
+Runtime Environment
+---------------------------------
+spark.driver.extraClassPath 	(none)
+spark.driver.extraJavaOptions 	(none)
+spark.driver.extraLibraryPath 	(none)
+spark.executor.extraClassPath 	(none) 	
+spark.executor.extraClassPath 	(none) 	
+spark.executor.extraLibraryPath 	(none)
+
+---------------------------------
+Shuffle Behavior
+---------------------------------
+
+---------------------------------
+Spark UI
+---------------------------------
+---------------------------------
+Compression and Serialization
+---------------------------------
+---------------------------------
+Memory Management
+---------------------------------
+spark.memory.fraction 	0.75
+spark.memory.storageFraction 	0.5
+spark.memory.offHeap.enabled 	false
+spark.memory.offHeap.size 	0
+spark.memory.useLegacyMode 	false
+spark.shuffle.memoryFraction 	0.2
+spark.storage.memoryFraction 	0.6
+spark.storage.unrollFraction 	0.2
+
+---------------------------------
+Execution Behavior
+---------------------------------
+spark.broadcast.blockSize 	4m
+
+
+
+
+
