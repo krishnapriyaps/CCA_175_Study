@@ -1,0 +1,14 @@
+P1:
+
+sqoop import  --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table products --target-dir p93_products_rv -m 1
+
+val productsRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/p93_products_rv/part*")
+
+val productsPairRDD = productsRDD.map(r => (r.split("|")(1),r))
+
+type Data = (entry1 :String, entry2: String)
+val orderList = (entry : Data) => {
+	if entry1.split())
+	
+}
+val productsGroupRDD = productsPairRDD.groupByKey().mapByValues(list => list.sort() )

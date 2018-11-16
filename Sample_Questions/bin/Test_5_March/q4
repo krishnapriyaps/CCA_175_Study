@@ -1,0 +1,60 @@
+
+create table employee (id int, name varchar(10))
+create table salary (id int, salary int)
+
+hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/employee
+
+hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/salary
+
+sqoop export --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table  employee --export-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/employee"  --fields-terminated-by ","
+
+sqoop export --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table  salary --export-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/salary"  --fields-terminated-by ","
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table  salary --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/salary_avro" --as-avrodatafile -m 1
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table  employee --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/employee_avro" --as-avrodatafile -m 1
+
+
+avro-tools getschema hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/salary_avro/part-m-00000.avro
+{
+  "type" : "record",
+  "name" : "salary",
+  "doc" : "Sqoop import of salary",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", "int" ],
+    "default" : null,
+    "columnName" : "id",
+    "sqlType" : "4"
+  }, {
+    "name" : "salary",
+    "type" : [ "null", "int" ],
+    "default" : null,
+    "columnName" : "salary",
+    "sqlType" : "4"
+  } ],
+  "tableName" : "salary"
+}
+
+
+avro-tools getschema hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/employee_avro/part-m-00000.avro
+{
+  "type" : "record",
+  "name" : "employee",
+  "doc" : "Sqoop import of employee",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", "int" ],
+    "default" : null,
+    "columnName" : "id",
+    "sqlType" : "4"
+  }, {
+    "name" : "name",
+    "type" : [ "null", "string" ],
+    "default" : null,
+    "columnName" : "name",
+    "sqlType" : "12"
+  } ],
+  "tableName" : "employee"
+}
+

@@ -1,0 +1,10 @@
+
+
+generate CSV report delimiter by comma from hive
+
+
+
+ hive -e 'select * from problem6.categories' | sed 's/[\t]/,/g' >> /home/cloudera/Study/cca_probalems/CompleteSolution/Qx4/report.csv
+
+
+ impala-shell -q 'select * from problem6.categories'  -o /home/cloudera/Study/cca_probalems/CompleteSolution/Qx4/report_impala.csv --delimited  --output_delimiter=','

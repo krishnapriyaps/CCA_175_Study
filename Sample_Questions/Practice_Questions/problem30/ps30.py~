@@ -1,0 +1,15 @@
+#orderid , order_date , order_customer_id, order_status
+ordersRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/orders")
+# order_item_id :int , order_item_order_id :int , :int, order_item_quantity :int ,order_item_subtotal :float, order_item_product_price :float
+oiRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/order_items")
+
+#2. Join these data using orderid in Spark and Python
+#3. Calculate total revenue perday and per order
+#4. Calculate total and average revenue for each date. - combineByKey
+
+ordersPRDD = ordersRDD.map( lambda l : (l.split(',')[0], l))
+oiPRDD = oiRDD.map( lambda l : (l.split(',')[1],l))
+
+oijoinRDD = ordersRDD.join(oiRDD)
+
+ranheInt = range(1:20)

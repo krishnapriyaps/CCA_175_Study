@@ -1,0 +1,18 @@
+val field= sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/testdata/ps20.csv")
+
+def A (x : String) : Array[String] = {x.split(",")}
+val mapper = field.map(A)
+
+def B (x : Array[String]): Array[String] =  { x(3) = if (x(3).isEmpty) "0" else x(3)  ; x(6) = if (x(6).isEmpty) "0" else x(6) ; return x }
+mapper.map(B).collect
+
+Please fill in A and B so it can generate below final output
+Array(Array(3070811,1963,109G, 0, "US", "CA", 0,1, 0)
+,Array(3022811,1963,1096, 0, "US", "CA", 0,1, 56)
+,Array(3033811,1963,1096, 0, "US", "CA", 0,1, 23)
+)
+
+
+--------------------PROPER
+val mapper = field.map(x=> x.split(",",-1))
+mapper.map(x => x.map(x=> {if(x.size == 0) 0 else x})).collect

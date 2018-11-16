@@ -1,0 +1,72 @@
+Problem 9
+
+You have been given a database named retail_db with following detail. Which consists 6 tables and datamodel you can see in image.
+user=retail_dba 
+password=cloudera 
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+
+1. Import the entire database in a file format this good for analytical applications on Hadoop e.g. group your data in columns and should be able to query this data using Impala.
+Also, while importing to save space you do compression using snappy codec.
+2. In impala write the query, which can produce 5 Most popular product categories and save the results in HadoopExam/best_categories.csv in hdfs .
+3. In Impala write the query, which can produce top 10 revenue generating products and save the results in HadoopExam/best_products.csv  in hdfs .
+
+
+****************.........Solution.........****************
+-- New Database in hive
+create database retail_db_p9;
+hadoop fs -chmod 777 hdfs://quickstart.cloudera:8020/user/cloudera/impala/HadoopExam ### Otherwise External Table creation fails with out permission for impala user
+
+-----------------------------------------------QUESTION 1 : IMPORT------------------------------------------------------
+## Import all tables via sqoop in parquat format and with compression snappy and create hive table to query via impala
+sqoop import-all-tables  --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password cloudera --compress --compression-codec snappy  --as-parquetfile  --hive-import --hive-database retail_db_p9 --hive-overwrite 
+
+## IMPALA QUERY TO SYNC METADATA
+invalidate metadata;
+
+------------------------------------------------QUESTION 2-----------------------------------------------------
+-- Info
+--WARNINGS: Ignoring ORDER BY clause without LIMIT or OFFSET: ORDER BY mostHits DESC.
+--An ORDER BY appearing in a view, subquery, union operand, or an insert/ctas statement has no effect on the query result unless a LIMIT and/or OFFSET is used in conjunction with the ORDER BY.
+-- QUERY TO FIND MOST POPULAR PRODECT CATEGORY FROM NUMBER OF PRODUCTS BOUGHT NDER THAT CATEGORY 
+select * from retail_db_p9.categories where categories.category_id in  (select product_category_id as category_id from (select product_category_id , count(1) as mostHits from retail_db_p9.products group by product_category_id order by mostHits desc limit 5) T ) ;
+
+## IMPALA SHELL SCRIPT TO COPY RESULTS TO REQUIRED PATH
+*****APPROACH 1
+
+## Copy results to local folder
+
+impala-shell -B -q "select * from retail_db_p9.categories where categories.category_id in  (select product_category_id as category_id from (select product_category_id , count(1) as mostHits from retail_db_p9.products group by product_category_id order by mostHits desc limit 5) T )"   -o "/home/cloudera/best_categories.csv" '--output_delimiter=,'
+## Push results to HDFS
+hadoop fs -put /home/cloudera/best_categories.csv hdfs://quickstart.cloudera:8020/user/cloudera/impala/HadoopExam/best_categories.csv
+
+*****APPROACH 2 :  Create external table
+
+impala-shell -B -q "CREATE external TABLE retail_db_p9.categories_best_2 (category_id INT,category_department_id INT, category_name STRING)  ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION \"hdfs://quickstart.cloudera:8020/user/cloudera/impala/HadoopExam/best_categories\""
+
+impala-shell -B -q "insert into table retail_db_p9.categories_best_2  select * from retail_db_p9.categories where categories.category_id in  (select product_category_id as category_id from (select product_category_id , count(1) as mostHits from retail_db_p9.products group by product_category_id order by mostHits desc limit 5) T )"
+
+------------------------------------------------QUESTION 3-----------------------------------------------------
+--QUERY TO FIND 10 products WITH max revenue
+select * from retail_db_p9.products where product_price in (select product_price from retail_db_p9.products order by product_price desc limit 10);
+
+*****APPROACH 1 : Move to local and Push to HDFS
+## Copy results to local folder
+impala-shell -B -q "select * from retail_db_p9.products where product_price in (select product_price from retail_db_p9.products order by product_price desc limit 10)"  -o "/home/cloudera/best_products.csv" '--output_delimiter=,'
+## Push results to HDFS
+hadoop fs -put /home/cloudera/best_products.csv hdfs://quickstart.cloudera:8020/user/cloudera/impala/HadoopExam/best_products.csv
+
+
+*****APPROACH 2 :  Create external table
+impala-shell -B -q "CREATE TABLE retail_db_p9.products_2 ( product_id INT, product_category_id INT,product_name STRING,  product_description STRING, product_price FLOAT,  product_image STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION \"hdfs://quickstart.cloudera:8020/user/cloudera/impala/HadoopExam/best_products\""
+
+impala-shell -B -q "insert into table retail_db_p9.products_2  select * from retail_db_p9.products where product_price in (select product_price from retail_db_p9.products order by product_price desc limit 10)"
+
+
+
+
+
+
+
+
+

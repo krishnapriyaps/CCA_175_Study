@@ -1,0 +1,16 @@
+****1
+5. Extract the Schema from this Avro file (And without downloading AVRO file locally).
+ avro-tools getschema hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_4/salary_avro/part-m-00000.avro
+****2
+sqoop import --connect "jdbc:mysql://quickstart:3306/retail_db" --username retail_dba --password cloudera --table departments --hive-import --hive-overwrite  --hive-table retail_db.departments_hive
+Loading data to table retail_db.departments_hive
+chgrp: changing ownership of 'hdfs://quickstart.cloudera:8020/user/hive/warehouse/retail_db.db/departments_hive': User does not belong to supergroup
+Table retail_db.departments_hive stats: [numFiles=4, numRows=0, totalSize=115, rawDataSize=0]l
+****3
+Strign Existed in Array
+****4
+Broad Cast Variables
+****5
+import all tables in sqoop
+****6
+impala shell

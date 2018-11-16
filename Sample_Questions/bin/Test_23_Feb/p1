@@ -1,0 +1,19 @@
+There is a parent organization called "Acmeshell Group Inc' which has two child companines named QuickTech and HadoopExam. Both companies employee info is given in two separate text file as below. Please do the following activity for emplyee details
+
+quicktech.txt
+1,Alok,Hyd
+2,Krish,HongKong
+3,Jyothi,Mumbai
+4,Athul,Bangalore
+5,Ishan,Gurgaon
+
+hadoopexam.txt
+6,John,Newyork
+7,alp2004
+8,tellme,Mumbai
+9Ganan21,Pune
+10,Mukesh,Chennai
+
+
+hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb23/hadoopexam.txt
+val hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb23/quicktech.txt

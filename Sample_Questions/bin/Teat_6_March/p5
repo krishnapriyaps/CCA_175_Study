@@ -1,0 +1,17 @@
+case class Product (productID :Int,productCode:String,name:String,quantity:Int,price:Double)
+
+val dataRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_5/product.csv").map(_.split(',')).map(a => Product(a(0).trim.toInt, a(1), a(2), a(3).trim.toInt, a(4).trim.toDouble))
+
+import org.apache.spark.sql.hive._
+
+val sqlCon = new HiveContext(sc)
+
+val df =  sqlCon.createDataFrame(dataRDD)
+
+df.registerTempTable("product")
+
+
+sqlCon.sql("select * from product where productCode is null") show
+sqlCon.sql("select * from product where name like ('Pen%') order by price desc") show
+sqlCon.sql("select * from product where name like ('Pen%') order by price desc , quantity") show
+sqlCon.sql("select * from product order by price desc limit 2") show

@@ -1,0 +1,6 @@
+val ContentRdd = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb23/Content.txt").flatMap(l => l.split("\\s"))
+
+val RemoveRdd = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb23/Remove.txt").flatMap(l => l.split("\\s"))
+
+
+ val subtractRDD = ContentRdd.subtract(RemoveRdd)

@@ -1,0 +1,21 @@
+// Join data
+val salRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_25/spark12/salary.txt").map( _.split(",")).map( a => (a(0)+" "+a(1), a(2) ))
+val techRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_25/spark12/technology.txt").map( _.split(",")).map( a => (a(0)+" "+a(1), a(2) ))
+val joinedRDD = salRDD.join(techRDD).map( e => e._1+"."+e._2._2+"."+e._2._1)
+
+
+//Avoiding header
+//Remove Header in first line
+val salHeader = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_25/spark12/salary.txt").first()
+val salHeaderBroadcast  = sc.broadcast(salHeader)
+val salRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_25/spark12/salary.txt").filter(_ != salHeaderBroadcast.value).map( _.split(",")).map( a => (a(0)+" "+a(1), a(2) ))
+
+//Remove Header in First line
+val techHeader = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_25/spark12/technology.txt").first()
+val techHeaderBroadcast = sc.broadcast(techHeader)
+val techRDD  = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_25/spark12/technology.txt").filter(_ != techHeaderBroadcast.value).map( _.split(",")).map( a => (a(0)+" "+a(1), a(2) ))
+
+val joinedRDD = salRDD.join(techRDD).map( e => e._1+"."+e._2._2+"."+e._2._1)
+
+
+

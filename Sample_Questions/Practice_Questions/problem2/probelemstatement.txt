@@ -1,0 +1,22 @@
+You have been given MYSQL DB ith following details
+user=retail_db
+password=cloudera
+database=retail_db
+table=retail_db.categories
+jdbc usrl = jdbc:mysql://quickstart:3306/retail_db
+
+Please accomplish following activites
+1. Connect MYSQL DB and check content of the tables
+ sqoop eval --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --query "Select * from categories"
+
+2. Copy "retail_db.categories" table to hdfs without specifying directory name
+ sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera  --table  categories
+ ---data import to folder "/user/cloudera/categories"
+
+3. Copy "retail_db.categories" table to hdfs with specifying directory name as "categories_target"
+  sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera  --table  categories --target-dir categories_target
+ ---data import to folder "/user/cloudera/categories_target"
+
+4. Copy "retail_db.categories" table to hdfs with specifying warehouse directory name as "categories_warehouse"
+  sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera  --table  categories --warehouse-dir categories_warehouse
+ ---data import to folder "/user/cloudera/categories_warehouse/categories"

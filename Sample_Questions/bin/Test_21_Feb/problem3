@@ -1,0 +1,29 @@
+1) A. Which comd will you use to check all the available command line optionss on HDFS and B. How will you get help for inidivual commad
+hadoop fs 
+
+2) Create a new Empty Directory named Employee using cmd line. And Also create an empty file named in it  quicktect.txt
+
+hadoop fs -mkdir hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb21
+
+
+3) Load both companies employee data in Employee Directory (How to override existing file in HDFS) 
+
+hadoop fs -touchz hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb21/quicktech.txt
+
+
+4) Merge both employees data in a single file called MergedEmployee.txt, merged files should should have new line character at the end of each file content
+
+ hadoop fs -getmerge -nl hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb21/hadoopexam.txt hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb21/quicktech.txt  MergedEmployee.txt
+
+6,John,Newyork
+7,alp2004
+8,tellme,Mumbai
+9Ganan21,Pune
+10,Mukesh,Chennai
+
+1,Alok,Hyd
+2,Krish,HongKong
+3,Jyothi,Mumbai
+4,Athul,Bangalore
+5,Ishan,Gurgaon
+

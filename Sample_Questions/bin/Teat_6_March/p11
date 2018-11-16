@@ -1,0 +1,38 @@
+
+
+create table departments_hive(department_id int, department_name string);
+
+ desc formatted departments_hive;
+OK
+# col_name            	data_type           	comment             
+	 	 
+department_id       	int                 	                    
+department_name     	string              	                    
+	 	 
+# Detailed Table Information	 	 
+Database:           	test_march_6        	 
+Owner:              	cloudera            	 
+CreateTime:         	Tue Mar 06 08:18:35 PST 2018	 
+LastAccessTime:     	UNKNOWN             	 
+Protect Mode:       	None                	 
+Retention:          	0                   	 
+Location:           	hdfs://quickstart.cloudera:8020/user/hive/warehouse/test_march_6.db/departments_hive	 
+Table Type:         	MANAGED_TABLE       	 
+Table Parameters:	 	 
+	transient_lastDdlTime	1520353115          
+	 	 
+# Storage Information	 	 
+SerDe Library:      	org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe	 
+InputFormat:        	org.apache.hadoop.mapred.TextInputFormat	 
+OutputFormat:       	org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat	 
+Compressed:         	No                  	 
+Num Buckets:        	-1                  	 
+Bucket Columns:     	[]                  	 
+Sort Columns:       	[]                  	 
+Storage Desc Params:	 	 
+	serialization.format	1                   
+Time taken: 0.153 seconds, Fetched: 27 row(s
+
+
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table departments --target-dir hdfs://quickstart.cloudera:8020/user/cloudera/test_match_5/tempdir   --hive-import --hive-overwrite --hive-table  test_march_6.departments_hive 

@@ -1,0 +1,31 @@
+
+
+
+val format =  new java.text.SimpleDateFormat("yyyy-MM-dd")
+
+val bv = sc.broadcast(format)
+
+case class Patient(patientID : Int,name:String,dateOfBirth :java.util.Date,lastVisitDate: java.util.Date)
+
+val dataRdd =  sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/patient.csv").map(_.split(','))
+val patientRDD = dataRdd.map(a => Patient(a(0).trim.toInt, a(1), bv.value.parse(a(2)),  bv.value.parse(a(3))))
+
+case class Patient2(patientID : Int,name:String,dateOfBirth :String,lastVisitDate:String)
+val patient2RDD = dataRdd.map(a => Patient2(a(0).trim.toInt, a(1), a(2),  a(3)))
+
+import org.apache.spark.sql._
+val sqlCon = new SQLContext(sc)
+val df = sqlCon.createDataFrame(patient2RDD)
+df.registerTempTable("Patient_temp")
+
+sqlCon.sql("select * from  Patient_temp where cast(lastVisitDate as Date) > '2012-09-15' and cast(lastVisitDate as Date)  < now()")
+
+Find all the patients who born in 2011 
+
+sqlCon.sql("select * from  Patient_temp where year(cast(dateOfBirth as Date)) < '2011' ")
+sqlCon.sql("select patientID, name,dateOfBirth , year(cast(dateOfBirth as Date)) from  Patient_temp ") show
+
+ Find all the patients age
+
+sqlCon.sql("select patientID, name, (( - cast(dateOfBirth as Date))/365) as age from  Patient_temp  ")
+

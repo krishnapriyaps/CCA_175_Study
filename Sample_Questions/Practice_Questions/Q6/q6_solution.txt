@@ -1,0 +1,8 @@
+val field= sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_25/spark12/file1.txt")
+
+
+
+val mapper = field.map(x=> x.split(",", -1))
+
+mapper.map(x => x.map(x=> {x.map( x1=> if(x1=="")0 else x1)})).collect
+

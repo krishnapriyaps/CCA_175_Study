@@ -1,0 +1,34 @@
+
+
+val dataRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_28/patient.csv")
+
+val headerLine = dataRDD.first()
+val headerBV = sc.broadcast(headerLine)
+
+case class Patient (patientID : Int ,name : String,dateOfBirth:String,lastVisitDate:String)
+
+import org.apache.spark.sql._
+val sqlCon = new SQLContext(sc)
+
+val df = sqlCon.createDataFrame (dataRDD.filter( r=> !(headerBV.value == r)).map(_.split(',')).map(a => Patient( a(0).trim.toInt, a(1), a(2), a(3))))
+
+df.registerTempTable("Patient")
+
+sqlCon.sql("select * from Patient where to_date(date_format(lastVisitDate , 'yyyy-MM-dd')) < current_date() and to_date(date_format(lastVisitDate , 'yyyy-MM-dd')) > '2012-09-15'")
+
+
+sqlCon.sql("select * from Patient where year(to_date(date_format(dateOfBirth , 'yyyy-MM-dd'))) = 2011")
+
+
+sqlCon.sql("select datediff (current_date(), to_date(date_format(dateOfBirth , 'yyyy-MM-dd'))) / 365 age from Patient").show
+
+
+sqlCon.sql("select * from Patient where datediff (current_date(),to_date(date_format(lastVisitDate , 'yyyy-MM-dd'))) > 60")
+
+
+sqlCon.sql("select * from Patient where datediff (current_date(), to_date(date_format(dateOfBirth , 'yyyy-MM-dd'))) / 365  > 18") show
+
+
+
+
+

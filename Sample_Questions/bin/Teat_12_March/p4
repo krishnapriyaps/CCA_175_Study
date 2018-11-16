@@ -1,0 +1,38 @@
+
+case class Product (productID :  Int,productCode:String,name:String,quantity:Int,price:Double)
+
+val dataRDD =  sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_12/product.csv").map(_.split(',')).map(a => Product(a(0).trim.toInt, a(1), a(2),a(3).trim.toInt, a(4).trim.toDouble))
+
+import org.apache.spark.sql.hive._
+
+val sqlCont = new HiveContext(sc)
+
+val df =  sqlCont.createDataFame(dataRDD)
+df.registerTempTable("Product")
+
+val createQueryORC = "create table test_march12.Product_orc (productID int, productCode String, name string, quantity int, price double) stored as ORC"
+
+val orcinsertTable = "insert into  test_march12.Product_orc select * from Product"
+
+sqlCont.sql(createQueryORC)
+sqlCont.sql(orcinsertTable)
+sqlCont.sql("select * from test_march12.Product_orc").show
+
+val createQueryPar = "create table test_march12.Product_par (productID int, productCode String, name string, quantity int, price double) stored as PARQUET"
+
+val parinsertTable = "insert into  test_march12.Product_par select * from Product"
+
+sqlCont.sql(createQueryPar)
+sqlCont.sql(parinsertTable)
+sqlCont.sql("select * from test_march12.Product_par").show
+
+sqlCont.sql("select * from Product where productCode is null").show
+
+sqlCont.sql("select * from Product where name like ('Pen%') order by price desc").show
+
+sqlCont.sql("select * from Product where name like ('Pen%') order by price desc, quantity").show
+
+sqlCont.sql("select * from Product order by price desc limit 2").show
+
+
+

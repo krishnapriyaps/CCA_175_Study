@@ -1,0 +1,15 @@
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+| 2             | Fitness         |
+| 3             | Footwear        |
+| 4             | Apparel         |
+| 5             | Golf            |
+| 6             | Outdoors        |
+| 7             | Fan Shop        |
+| 10            | Physics         |
+| 11            | Chemistry       |
+| 12            | Maths           |
+| 13            | English         |
+| 14            | Biology         |
++---------------+-----------------+

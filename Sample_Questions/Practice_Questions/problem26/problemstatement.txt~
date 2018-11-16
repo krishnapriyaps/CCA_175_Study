@@ -1,0 +1,14 @@
+You have been given MySQL DB with following details. You have
+been given following product.csv file
+product.csv
+productID,productCode,name,quantity,price
+1001,PEN,Pen Red,5000,1.23
+1002,PEN,Pen Blue,8000,1.25
+1003,PEN,Pen Black,2000,1.25
+1004,PEC,Pencil 2B,10000,0.48
+1005,PEC,Pencil 2H,8000,0.49
+1006,PEC,Pencil HB,0,9999.99
+Now accomplish following activities.
+1. Create a Hive ORC table using SparkSql
+2. Load this data in Hive table.
+3. Create a Hive parquet table using SparkSQL and load data in it.

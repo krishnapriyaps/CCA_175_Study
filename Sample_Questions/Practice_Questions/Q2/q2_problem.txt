@@ -1,0 +1,24 @@
+You have been given MySQL DB with following details.
+
+user=retail_dba
+
+password=cloudera
+
+database=retail_db
+
+table=retail_db.orders
+
+table=retail_db.order_items
+
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+
+Columns of order table : (orderid , order_date , order_customer_id, order_status)
+
+Columns of ordeMtems table : (order_item_id , order_item_order_ld , order_item_product_id, order_item_quantity,order_item_subtotal,order_item_product_price)
+
+Please accomplish following activities.
+
+1. Copy "retail_db.orders" and "retail_db.order_items" table to hdfs in respective directory p92_orders and p92 order items .
+2. Join these data using orderid in Spark and Python
+3. Calculate total revenue perday and per order
+4. Calculate total and average revenue for each date. -combineByKey -aggregateByKey

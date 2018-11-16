@@ -1,0 +1,1 @@
+create table family.Employee100K2  as select * from SAMPLE_07 where salary is >= 100000 UNION ALL select * from SAMPLE_08 where salary is >= 100000

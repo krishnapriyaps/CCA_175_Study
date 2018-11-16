@@ -1,0 +1,5 @@
+
+sqoop import-all-tables --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --warehouse-dir "hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/aaltables"  -m 2 --compress  --compression-codec snappy --fields-terminated-by "|" --hive-import  --hive-database test_march_5 --hive-overwrite  --exclude-tables "salary,employee"
+
+
+impala-shell -q  "invalidate metadata"

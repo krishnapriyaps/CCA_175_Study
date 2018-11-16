@@ -1,0 +1,11 @@
+sqoop export --connect "jdbc:mysql://quickstart:3306/retail_db" --username retail_dba --password cloudera  --export-dir hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_4/employee  --table EMPLOYEE_RTV  --columns EMP_ID,EMP_NAME --fields-terminated-by "|"
+
+sqoop export --connect "jdbc:mysql://quickstart:3306/retail_db" --username retail_dba --password cloudera  --export-dir hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_4/salary  --table SALARYR_TV  --columns EMP_ID,SALARY --fields-terminated-by "|"
+
+sqoop import --connect "jdbc:mysql://quickstart:3306/retail_db" --username retail_dba --password cloudera --table SALARYR_TV --target-dir  hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_4/salary_avro --as-avrodatafile -m 1
+
+val removeData = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_4/Remove.txt").flatMap(_.split("\s"))
+val contentRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_4/Content.txt")
+
+
+val broadCastRD = sc.broadCast(removeData)

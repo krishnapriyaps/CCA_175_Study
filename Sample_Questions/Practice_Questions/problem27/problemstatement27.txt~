@@ -1,0 +1,25 @@
+You have been given below code snippet.
+val pairRDDI = sc.parallelize(List( ("cat",2), ("cat", 5), ("book", 4),("cat", 12))) 
+val pairRDD2 = sc.parallelize(List( ("cat",2), ("cup", 5), ("mouse", 4),("cat", 12)))
+
+operation1
+Write a correct code snippet for operationl which will produce desired output, shown below.
+
+Array[(String, (Option[lnt], Option[lnt]))] = Array((book,(Some(4},None)),(mouse,(None,Some(4))), (cup,(None,Some(5))), (cat,(Some(2),Some(2)),(cat,(Some(2),Some(12))), (cat,(Some(5),Some(2))), (cat,(Some(5),Some(12))),(cat,(Some(12),Some(2))), (cat,(Some(12),Some(12)))J
+
+
+
+ val cartRDD = pairRDDI.cogroup(pairRDD2)
+cartRDD.collect
+res2: Array[(String, (Iterable[Int], Iterable[Int]))] = Array((cup,(CompactBuffer(),CompactBuffer(5))), (cat,(CompactBuffer(2, 5, 12),CompactBuffer(2, 12))), (book,(CompactBuffer(4),CompactBuffer())), (mouse,(CompactBuffer(),CompactBuffer(4))))
+
+cartRDD.flatMapValues()
+def flatten( a : (Iterable[Int], Iterable[Int])) : Array[ ((Iterable[Int], Iterable[Int]))] { 
+	key = a._1; 
+	val op = new Array[ (String, (Iterable[Int], Iterable[Int]))];  
+	
+}
+val valueCartRDD = cartRDD
+
+ val cartRDD2 = pairRDDI.cartesian(pairRDD2)
+cartRDD2.filter(a => a._1._1 == a._2._1)

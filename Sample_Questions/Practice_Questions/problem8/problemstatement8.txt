@@ -1,0 +1,42 @@
+Problem8
+You already have two tables (Hive) name "SAMPLE_07" and "SAMPLE_08" in a default schema. With following structure (both the tables have same structure).
+
+code string
+description string
+total_emp int
+salary int
+
+Create another table named Employee100K2 in a Family schema, which has all the employees whose salary is >= 100000 from both the tables.
+
+****************.........Solution.........****************
+
+****Apporach 1 - Hive beeline
+
+--Hive Query to create table
+CREATE TABLE if not exists family.SAMPLE_07 (code string, description string,total_emp int, salary int) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+
+CREATE TABLE if not exists family.SAMPLE_08 (code string, description string,total_emp int, salary int) ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+
+--LOAD DATA
+LOAD DATA LOCAL INPATH "/home/cloudera/Study/cca_probalems/problem8/sampledataproblem8_t1.txt" INTO TABLE family.SAMPLE_07;
+
+LOAD DATA LOCAL INPATH "/home/cloudera/Study/cca_probalems/problem8/sampledataproblem8_t2.txt" INTO TABLE family.SAMPLE_08;
+
+create table family.Employee100K2 AS select * from (select code,description,total_emp,salary from family.SAMPLE_07 where salary >= 100000 UNION ALL  select code,description,total_emp,salary from family.SAMPLE_08 where salary >= 100000) T
+
+
+****Apporach 2 - SPARK SQL
+****** PYTHON
+## Create Hive context object
+
+sql = HiveContext(sc)
+
+## Create new table and Load table : family.SAMPLE_07_2
+sql.sql("CREATE TABLE if not exists family.SAMPLE_07_2 (code string, description string,total_emp int, salary int) ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+sql.sql("LOAD DATA LOCAL INPATH \"/home/cloudera/Study/cca_probalems/problem8/sampledataproblem8_t1.txt\" INTO TABLE family.SAMPLE_07_2")
+
+## Create New table : Union - family.SAMPLE_07_2 and family.SAMPLE_08 (already created in hive)
+sql.sql("create table family.Employee100K2_2 AS select * from (select code,description,total_emp,salary from family.SAMPLE_07 where salary >= 100000 UNION ALL  select code,description,total_emp,salary from family.SAMPLE_08 where salary >= 100000) T")
+
+
+

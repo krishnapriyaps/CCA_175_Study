@@ -1,0 +1,4 @@
+case class Patient (patientID: String ,name : String,dateOfBirth: java.util.Date,lastVisitDate: java.util.Date)
+
+val datetimepattern = DateTimeFormat.forPattern("yyyy-mm-dd")
+val DataRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb23/file1.txt").map(_.split(',')).map(a => Patient(a(0), a(1), new java.util.Date(a(2)), new java.util.Date(a(3))))

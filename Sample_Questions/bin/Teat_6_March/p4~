@@ -1,0 +1,21 @@
+
+
+case class Product (productID :Int,productCode:String,name:String,quantity:Int,price:Double)
+
+val dataRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_5/product.csv").map(_.split(',')).map(a => Product(a(0).trim.toInt, a(1), a(2), a(3).trim.toInt, a(4).trim.toDouble))
+
+import org.apache.spark.sql.hive._
+
+val sqlCon = new HiveContext(sc)
+
+val df =  sqlCon.createDataFrame(dataRDD)
+
+df.registerTempTable("product")
+
+sqlCon.sql("create table test_march_6.product_orc (productID Int,productCode String,name String,quantity Int,price Double) stored as ORC")
+
+sqlCon.sql("insert into test_march_6.product_orc select * from product")
+
+sqlCon.sql("create table test_march_6.product_parquet (productID Int,productCode String,name String,quantity Int,price Double) stored as parquet")
+
+sqlCon.sql("insert into test_march_6.product_parquet select * from product")

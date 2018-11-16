@@ -1,0 +1,162 @@
+Q1------------------------- (Problem 9)
+You have been given a database named retail_db with following detail. Which consists 6 tables and datamodel you can see in image.
+user=retail_dba 
+password=cloudera 
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+
+1. Import the entire database in a file format this good for analytical applications on Hadoop e.g. group your data in columns and should be able to query this data using Impala.
+Also, while importing to save space you do compression using snappy codec.
+2. In impala write the query, which can produce 5 Most popular product categories and save the results in HadoopExam/best_categories.csv in hdfs .
+3. In Impala write the query, which can produce top 10 revenue generating products and save the results in HadoopExam/best_products.csv  in hdfs .
+
+Q2-----------------------------------------------------
+You have been given MySQL DB with following details.
+user=retail_dba
+password=cloudera
+database=retail_db
+table=retail_db.categories
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Please accomplish following activities.
+1. Import data from categories table, where category=22 (Data should be stored in categories subset)
+2. Import data from categories table, where category>22 (Data should be stored in
+categories_subset_2)
+3. Import data from categories table, where category between 1 and 22  and export to a categories_rtv table
+4. While importing catagories data change the delimiter to '|' (Data should be stored in categories_subset_S)
+5. Importing data from catagories table and restrict the import to category_name,category id columns only with delimiter as '|'
+6. Add null values in the table using below SQL statement ALTER TABLE categories modify category_department_id int(11); INSERT INTO categories values (eO.NULL.'TESTING');
+7. Importing data from catagories table (In categories_subset_17 directory) using '|' delimiter and categoryjd between 1 and 61 and encode null values for both string and non
+string columns.
+8. Import entire schema retail_db in a directory categories_subset_all_tables
+
+Q3-----------------------------------------------------
+You have to run your Spark application on yarn with each executor
+Maximum heap size to be 512MB and Number of processor cores to allocate on each
+executor will be 1 and Your main application required three values as input arguments V1
+V2 V3.
+Please replace XXX, YYY, ZZZ
+./bin/spark-submit -class com.hadoopexam.MyTask --master yarn-cluster--num-executors 3
+--driver-memory 512m XXX YYY lib/hadoopexam.jarZZZ
+
+Q4-----------------------------------------------------
+You have been given MySQL DB with following details.
+user=retail_dba
+password=cloudera
+database=retail_db
+table=retail_db.orders
+table=retail_db.order_items
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Columns of order table : (orderid , order_date , order_customer_id, order_status)
+Columns of ordeMtems table : (order_item_id , order_item_order_ld ,
+order_item_product_id, order_item_quantity,order_item_subtotal,order_
+item_product_price)
+Please accomplish following activities.
+1. Copy "retail_db.orders" and "retail_db.order_items" table to hdfs in respective directory
+p92_orders and p92 order items .
+2. Join these data using orderid in Spark and Python
+3. Calculate total revenue perday and per order
+4. Calculate total and average revenue for each date. - combineByKey -aggregateByKey
+5. Sort the average revenue for each date and save it as a single text file with "," as delimiter: <date>,<averageRevenue>
+
+Q5-----------------------------------------------------
+You have been given below patient data in csv format,
+patientID,name,dateOfBirth,lastVisitDate
+1001,Ah Teck,1991-12-31,2012-01-20
+1002,Kumar,2011-10-29,2012-09-20
+1003,Ali,2011-01-30,2012-10-21
+Accomplish following activities.
+1 . Find all the patients whose lastVisitDate between current time and '2012-09-15'
+2 . Find all the patients who born in 2011
+3 . Find all the patients age
+4 . List patients whose last visited more than 60 days ago
+5 . Select patients 18 years old or younger and same data in PAQUEST format with snappy compression
+
+Q6-----------------------------------------------------
+You have been given following data format file. 
+a) Create an Hive database named "Family" with folFamilylowing details. You must take care that if database is already exist it should not be created again.
+Comment : "This database will be used for collecting various family data and their daily habits"
+Data File Location : '/hdfs/family'
+Stored other properties : "'Database creator'='Vedic'" , "'Database_Created_On'='2016-01-01'"
+Also write a command to check, whether database has been created or not, with new properties.
+
+b) You have been given following data format file. Each datapoint is separated by '|'.
+Name|Sex|Age|Father_Name
+Example Record
+Anupam|Male|45|Daulat
+Create an Hive table named "Family_Head" with following details.
+ - Table must be created in existing database named  "Family"
+ - You must take care that if table is already exist it should not be created again.
+ - Table must be created inside Hive warehouse directory and should not be an external table.
+
+c) You have been given following data format file. Each datapoint is separated by '|'.
+Name|Location1,Location2...Location5|Sex,Age|Father_Name:Number_of_Child
+Example Record
+Anupam|Delhi,Mumbai,Chennai|Male,45|Daulat:4
+Write a Hive DDL script to create a table named "FamilyHead" which should be capable of holding these data. Also note that it should use complex data type e.g. Map, Array,Struct
+
+Q7-----------------------------------------------------
+Problem Scenario 31 : You have given following two files
+1. Content.txt: Contain a huge text file containing space separated words.
+2. Remove.txt: Ignore/filter all the words given in this file (Comma Separated).
+Write a Spark program which reads the Content.txt file and load as an RDD, remove all the
+words from a broadcast variables (which is loaded as an RDD of words from Remove.txt).
+And count the occurrence of the each word and save it as a text file in HDFS.
+Content.txt
+Hello this is ABCTech.com
+This is TechABY.com
+Apache Spark Training
+This is Spark Learning Session
+Spark is faster than MapReduce
+Remove.txt
+Hello, is, this, the
+
+Q8.----------------------------------------------------
+Problem Scenario 2 : There is a parent organization called "Acmeshell Group Inc", which has two child companies named QuickTechie Inc and HadoopExam Inc. 
+Both compnaies employee information is given in two separate text file as below. Please do the following activity for employee details.
+quicktechie.txt
+1,Alok,Hyderabad
+2,Krish,Hongkong
+3,Jyoti,Mumbai
+4,Atul,Banglore
+5,Ishan,Gurgaon
+
+hadoopexam.txt
+6,John,Newyork
+7,alp2004,California
+8,tellme,Mumbai
+9,Gagan21,Pune
+10,Mukesh,Chennai
+
+1. Which command will you use to check all the available command line options on HDFS and How will you get the Help for individual command.
+2. Create a new Empty Directory named Employee using Command line. And also create an empty file named in it quicktechie.txt 
+3. Load both companies Employee data in Employee directory (How to override existing file in HDFS).
+4. Merge both the Employees data in a Single file called MergedEmployee.txt, merged files should have new line character at the end of each file content.
+5. Upload merged file on HDFS and change the file permission on HDFS merged file , so that owner and group member can read and write, other user can read the file.
+6. Write a command to export the individual file as well as entire directory from HDFS to local file System.
+
+Q9.----------------------------------------------------
+Problem Scenario 5 : You have been given following mysql database details.
+
+user=retail_dba 
+password=cloudera 
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+
+Please accomplish following activities.
+
+1. List all the tables using sqoop command from retail_db
+2. Write simple sqoop eval command to check whether you have permission to read database tables or not.
+3. Import all the tables as avro files in /user/hive/warehouse/retail_cca174.db
+4. Extract the Schema from this Avro file (And without downloading AVRO file locally).
+5. Import departments table as a text file in /user/cloudera/departments with snappy compression and delimiter '|'.
+6. Export data in path :  /user/cloudera/departments to retail_db_rtv.departments table
+
+Q10.----------------------------------------------------
+This step comprises of three substeps. Please perform tasks under each subset completely  
+using sqoop pull data from MYSQL orders table into /user/cloudera/problem7/prework as AVRO data file using only one mapper
+Pull the file from \user\cloudera\problem7\prework into a local folder named flume-avro
+create a flume agent configuration such that it has an avro source at localhost and port number 11112,  a jdbc channel and an hdfs file sink at /user/cloudera/problem7/sink
+Use the following command to run an avro client flume-ng avro-client -H localhost -p 11112 -F <<Provide your avro file path here>>
+
+
+

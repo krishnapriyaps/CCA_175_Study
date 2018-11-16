@@ -1,0 +1,55 @@
+Input:mysql> select * from retail_db.products Join (select max(product_id) as product_id from retail_db.products group by product_category_id limit 15) T ON products.product_id = T.product_id;
++------------+---------------------+-----------------------------------------------+---------------------+---------------+---------------------------------------------------------------------------------+------------+
+| product_id | product_category_id | product_name                                  | product_description | product_price | product_image                                                                   | product_id |
++------------+---------------------+-----------------------------------------------+---------------------+---------------+---------------------------------------------------------------------------------+------------+
+|         24 |                   2 | Elevation Training Mask 2.0                   |                     |         79.99 | http://images.acmesports.sports/Elevation+Training+Mask+2.0                     |         24 |
+|         48 |                   3 | adidas Brazuca Final Rio Official Match Ball  |                     |        159.99 | http://images.acmesports.sports/adidas+Brazuca+Final+Rio+Official+Match+Ball    |         48 |
+|         72 |                   4 | Quest 12' x 12' Dome Canopy                   |                     |        149.99 | http://images.acmesports.sports/Quest+12%27+x+12%27+Dome+Canopy                 |         72 |
+|         96 |                   5 | Teeter Hang Ups NXT-S Inversion Table         |                     |        299.99 | http://images.acmesports.sports/Teeter+Hang+Ups+NXT-S+Inversion+Table           |         96 |
+|        120 |                   6 | Nike Hyper Elite Crew Basketball Sock         |                     |            18 | http://images.acmesports.sports/Nike+Hyper+Elite+Crew+Basketball+Sock           |        120 |
+|        144 |                   7 | Garmin Forerunner 220 GPS Watch               |                     |        249.99 | http://images.acmesports.sports/Garmin+Forerunner+220+GPS+Watch                 |        144 |
+|        168 |                   8 | Nike Women's 3" Pro Compression Shorts        |                     |            32 | http://images.acmesports.sports/Nike+Women%27s+3%22+Pro+Compression+Shorts      |        168 |
+|        192 |                   9 | Nike Women's Pro Core 3" Compression Shorts   |                     |            28 | http://images.acmesports.sports/Nike+Women%27s+Pro+Core+3%22+Compression+Shorts |        192 |
+|        216 |                  10 | Yakima DoubleDown Ace Hitch Mount 4-Bike Rack |                     |           189 | http://images.acmesports.sports/Yakima+DoubleDown+Ace+Hitch+Mount+4-Bike+Rack   |        216 |
+|        240 |                  11 | Stamina Air Rower                             |                     |        299.99 | http://images.acmesports.sports/Stamina+Air+Rower                               |        240 |
++------------+---------------------+-----------------------------------------------+---------------------+---------------+---------------------------------------------------------------------------------+------------+
+***************************************************************
+DataFrame Int and String: 
+----------------------
+Row(product_id=None, product_category_id=None, product_name=u'Elevation Training Mask 2.0', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Elevation+Training+Mask+2.0')
+Row(product_id=None, product_category_id=None, product_name=u'adidas Brazuca Final Rio Official Match Ball', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/adidas+Brazuca+Final+Rio+Official+Match+Ball')
+Row(product_id=None, product_category_id=None, product_name=u"Quest 12' x 12' Dome Canopy", product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Quest+12%27+x+12%27+Dome+Canopy')
+Row(product_id=None, product_category_id=None, product_name=u'Teeter Hang Ups NXT-S Inversion Table', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Teeter+Hang+Ups+NXT-S+Inversion+Table')
+Row(product_id=None, product_category_id=None, product_name=u'Nike Hyper Elite Crew Basketball Sock', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Nike+Hyper+Elite+Crew+Basketball+Sock')
+Row(product_id=None, product_category_id=None, product_name=u'Garmin Forerunner 220 GPS Watch', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Garmin+Forerunner+220+GPS+Watch')
+Row(product_id=None, product_category_id=None, product_name=u'Nike Women\'s 3" Pro Compression Shorts', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Nike+Women%27s+3%22+Pro+Compression+Shorts')
+Row(product_id=None, product_category_id=None, product_name=u'Nike Women\'s Pro Core 3" Compression Shorts', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Nike+Women%27s+Pro+Core+3%22+Compression+Shorts')
+Row(product_id=None, product_category_id=None, product_name=u'Yakima DoubleDown Ace Hitch Mount 4-Bike Rack', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Yakima+DoubleDown+Ace+Hitch+Mount+4-Bike+Rack')
+Row(product_id=None, product_category_id=None, product_name=u'Stamina Air Rower', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Stamina+Air+Rower')
+***************************************************************
+DataFrame Int and String order by product_category_id
+----------------------
+Row(product_id=None, product_category_id=None, product_name=u'Elevation Training Mask 2.0', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Elevation+Training+Mask+2.0')
+Row(product_id=None, product_category_id=None, product_name=u'adidas Brazuca Final Rio Official Match Ball', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/adidas+Brazuca+Final+Rio+Official+Match+Ball')
+Row(product_id=None, product_category_id=None, product_name=u"Quest 12' x 12' Dome Canopy", product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Quest+12%27+x+12%27+Dome+Canopy')
+Row(product_id=None, product_category_id=None, product_name=u'Teeter Hang Ups NXT-S Inversion Table', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Teeter+Hang+Ups+NXT-S+Inversion+Table')
+Row(product_id=None, product_category_id=None, product_name=u'Nike Hyper Elite Crew Basketball Sock', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Nike+Hyper+Elite+Crew+Basketball+Sock')
+Row(product_id=None, product_category_id=None, product_name=u'Garmin Forerunner 220 GPS Watch', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Garmin+Forerunner+220+GPS+Watch')
+Row(product_id=None, product_category_id=None, product_name=u'Nike Women\'s 3" Pro Compression Shorts', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Nike+Women%27s+3%22+Pro+Compression+Shorts')
+Row(product_id=None, product_category_id=None, product_name=u'Nike Women\'s Pro Core 3" Compression Shorts', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Nike+Women%27s+Pro+Core+3%22+Compression+Shorts')
+Row(product_id=None, product_category_id=None, product_name=u'Yakima DoubleDown Ace Hitch Mount 4-Bike Rack', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Yakima+DoubleDown+Ace+Hitch+Mount+4-Bike+Rack')
+Row(product_id=None, product_category_id=None, product_name=u'Stamina Air Rower', product_description=u'', product_price=None, product_image=u'http://images.acmesports.sports/Stamina+Air+Rower')
+
+*****************************************************************
+DataFrame Int and String order by product_category_id desc
+----------------------
+
+*****************************************************************
+Temporary table Int and String order by product_category_id
+----------------------
+
+*****************************************************************
+Temporary table Int and String Desc order by product_category_id
+----------------------
+
+

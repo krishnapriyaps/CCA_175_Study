@@ -1,0 +1,23 @@
+You have been given a database named retail_db with following detail. Which consists 6 tables and datamodel you can see in image.
+user=retail_dba 
+password=cloudera 
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+
+1. Import the entire database in a file format this good for analytical applications on Hadoop e.g. group your data in columns and should be able to query this data using Impala.
+Also, while importing to save space you do compression using snappy codec.
+2. In impala write the query, which can produce 5 Most popular product categories and save the results in HadoopExam/best_categories.csv in hdfs .
+3. In Impala write the query, which can produce top 10 revenue generating products and save the results in HadoopExam/best_products.csv  in hdfs .
+
+
+sqoop import-all-tables --connect "jdbc:mysql://quickstart:3306/retail_db" --username retail_dba --password cloudera --warehouse-dir hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_4 -m 1 --fields-terminated-by "|" --compress --compression-codec snappy --hive-import --create-hive-table  --hive-database test_4_march
+
+
+impala-shell -q "select * from  retail_db.departments"  -o "HadoopExam/best_categories.csv" --delimited ","
+
+
+sqoop import --connect "jdbc:mysql://quickstart:3306/retail_db" --username retail_dba --password cloudera --table departments --hive-import --hive-overwrite  --hive-table retail_db.departments_hive
+Loading data to table retail_db.departments_hive
+chgrp: changing ownership of 'hdfs://quickstart.cloudera:8020/user/hive/warehouse/retail_db.db/departments_hive': User does not belong to supergroup
+Table retail_db.departments_hive stats: [numFiles=4, numRows=0, totalSize=115, rawDataSize=0]
+

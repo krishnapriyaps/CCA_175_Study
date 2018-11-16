@@ -1,0 +1,7 @@
+sqoop import --username retail_dba --password cloudera --connect jdbc:mysql://quickstart:3306/retail_db --table products --target-dir p93_products_feb_21 -m 1
+
+val dataRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/p93_products_feb_21/part*")
+
+val paiRDD = dataRDD.map(l => (l.split('|')(1), (l, l.split('|')(4))))
+
+val groupByRDD  = paiRDD.groupByKey().mapValues(list => list.toList.sortBy(_._2).map(_._1))

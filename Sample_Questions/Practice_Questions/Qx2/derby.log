@@ -1,0 +1,16 @@
+----------------------------------------------------------------
+Tue Mar 27 23:40:01 PDT 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0162-6b55-b490-000000982790 
+on database directory /home/cloudera/.flume/jdbc-channel/db with class loader sun.misc.Launcher$AppClassLoader@7d487b8b 
+Loaded from file:/usr/lib/flume-ng/lib/derby-10.11.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_67-b01
+user.dir=/home/cloudera/Study/cca_probalems/CompleteSolution/Qx2
+os.name=Linux
+os.arch=amd64
+os.version=2.6.32-573.el6.x86_64
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Wed Mar 28 02:32:18 PDT 2018:
+Shutting down instance a816c00e-0162-6b55-b490-000000982790 on database directory /home/cloudera/.flume/jdbc-channel/db with class loader sun.misc.Launcher$AppClassLoader@7d487b8b 

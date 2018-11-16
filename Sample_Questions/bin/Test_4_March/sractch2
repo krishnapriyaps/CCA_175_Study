@@ -1,0 +1,11 @@
+sqoop import --connect "jdbc:mysql://quickstart:3306/retail_db" --username retail_dba --password cloudera --table departments --warehouse-dir hdfs://quickstart.cloudera:8020/user/hive/warehouse/test_4_march.db/departments_hive --append
+
+val dataRDD = sc.parallelize(List( ("Deeapak" , "male", 4000), ("Deepak" , "male", 2000), ("Deepika" , "female",2000),("Deepak" , "female", 2000), ("Deepak" , "male", 1000) , ("Neeta" , "female", 2000)))
+
+val sumRDD = dataRDD.map(list => list_1+","+list_2, list_3).reduce(v1, v2 => v1+v2)
+
+val sumRDD = dataRDD.map(a, b, c => a+","+b, c).reduce(v1, v2 => v1+v2)
+
+
+Now write a Spark program to load this list as an RDD and do the sum of cost for combination of
+name and sex (as key))

@@ -1,0 +1,1 @@
+sqoop import --connect "jdbc:mysql://quickstart:3306/retail_db" --username retail_dba --password cloudera --table departments --hive-import  --hive-overwrite  --hive-table departments_hive3 --target-dir hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/departments_hive3

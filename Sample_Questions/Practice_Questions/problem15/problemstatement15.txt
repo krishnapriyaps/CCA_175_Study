@@ -1,0 +1,58 @@
+Problem 15
+
+You have been given MySQL DB with following details. You have been given
+following product.csv file 
+product.csv productID,productCode,name,quantity,price
+1001,PEN,Pen Red,5000,1.23
+1002,PEN,Pen Blue,8000,1.25
+1003,PEN,Pen Black,2000,1.25
+1004,PEC,Pencil 2B,10000,0.48
+1005,PEC,Pencil 2H,8000,0.49
+1006,PEC,Pencil HB,0,9999.99
+Now accomplish following activities.
+
+
+Problem Scenario 84 : In Continuation of previous question, please accomplish following activities.
+1. Select all the products which has product code as null
+2. Select all the products, whose name starts with Pen and results should be order by Price
+descending order.
+3. Select all the products, whose name starts with Pen and results should be order by
+Price descending order and quantity
+4. Select top 2 products by price
+
+Q1
+select * from family.person_ps14 where productcode is null and productcode == '' and length(productcode) == 0
+.....Result
+0 rows
+
+Q2
+select * from family.person_ps14 where name like "Pen%" order by Price
+
+.....Result
+1004	PEC	Pencil 2B	10000	0.48
+1005	PEC	Pencil 2H	8000	0.49
+1001	PEN	Pen Red	5000	1.23
+1003	PEN	Pen Black	2000	1.25
+1002	PEN	Pen Blue	8000	1.25
+1006	PEC	Pencil HB	0	9999.99
+
+
+Q3
+select * from family.person_ps14 where name like "Pen%" order by Price desc, quantity desc 
+.....Result
+1006	PEC	Pencil HB	0	9999.99
+1002	PEN	Pen Blue	8000	1.25
+1003	PEN	Pen Black	2000	1.25
+1001	PEN	Pen Red	5000	1.23
+1005	PEC	Pencil 2H	8000	0.49
+1004	PEC	Pencil 2B	10000	0.48
+
+
+
+Q4
+select * from family.person_ps14 order by price desc limit 2
+.....Result
+1006	PEC	Pencil HB	0	9999.99
+1002	PEN	Pen Blue	8000	1.25
+
+

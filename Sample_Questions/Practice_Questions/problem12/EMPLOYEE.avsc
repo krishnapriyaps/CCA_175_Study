@@ -1,0 +1,19 @@
+{
+  "type" : "record",
+  "name" : "EMPLOYEE",
+  "doc" : "Sqoop import of EMPLOYEE",
+  "fields" : [ {
+    "name" : "EMP_ID",
+    "type" : [ "null", "int" ],
+    "default" : null,
+    "columnName" : "EMP_ID",
+    "sqlType" : "4"
+  }, {
+    "name" : "EMP_NAME",
+    "type" : [ "null", "string" ],
+    "default" : null,
+    "columnName" : "EMP_NAME",
+    "sqlType" : "12"
+  } ],
+  "tableName" : "EMPLOYEE"
+}

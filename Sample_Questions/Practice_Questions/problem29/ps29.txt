@@ -1,0 +1,14 @@
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --where 'category_id=22' --target-dir 'hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/categories_subset'
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --where 'category_id>22' --target-dir 'hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/categories_subset_2'
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --where 'category_id>1 and category_id<22' --target-dir 'hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/categories_subset_3'
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir 'hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/categories_subset_5' --fields-terminated-by '|'
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --columns 'category_id,category_name' --target-dir 'hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/categories_subset_6' --fields-terminated-by '|'
+
+sqoop  import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --columns 'category_id,category_name' --target-dir 'hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/categories_subset_7' --fields-terminated-by '|' --input-null-non-string 'xx' --input-null-string 0
+
+sqoop import-all-tables  --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera  --warehouse-dir 'hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/categories_subset_all_tables'
+

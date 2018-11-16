@@ -1,0 +1,22 @@
+val keysWithValuesList = Array ("foo=A","foo=A","foo=A","foo=A","foo=B","bas=C","bas=D","bas=D")
+val data = sc.parallelize(keysWithValuesList)
+// Create Key value pair
+val kv = data.map(_.split("=")).map(v => (v(0), v(1))).cache()
+val initialCount=0;
+
+val addToCounts = ( a:Int, value : String)=> a +1 
+val SumPartialCounts = (p1: Int, p2:Int)  => p1+p2
+
+val countByKey=kv.aggregateByKey(initialCount)(addToCounts,SumPartialCounts)
+
+
+
+import scala.collection._
+val initialSet =  scala.collection.mutable.HashSet.empty[String]
+
+val addToSet = (set : scala.collection.mutable.HashSet[String], value:String) => set + value
+
+val mergePartitionSets = (set1:  scala.collection.mutable.HashSet[String], set2 :  scala.collection.mutable.HashSet[String]) => set1 ++= set2
+
+val uniqueByKey = kv.aggregateByKey(initialSet)(addToSet, mergePartitionSets)
+

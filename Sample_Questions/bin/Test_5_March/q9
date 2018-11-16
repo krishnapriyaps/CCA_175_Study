@@ -1,0 +1,13 @@
+
+val dataRdd = 
+val field= sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/filel.txt")
+val mapper = field.map(x=> A)
+mapper.map(x => x.map(x=> {B})).collect
+
+val mapper = field.map(x=> x.split(','))
+mapper.map(x => x.map(x=> {if (x.size == 0): 0 else x })).collect
+
+
+Array(Array(3070811,1963,109G, 0, "US", "CA", 0,1, 0)
+,Array(3022811,1963,1096, 0, "US", "CA", 0,1, 56)
+,Array(3033811,1963,1096, 0, "US", "CA", 0,1, 23)

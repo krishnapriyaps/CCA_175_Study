@@ -1,0 +1,36 @@
+val keysWithValuesList = Array ("foo=A","foo=A","foo=A","foo=A","foo=B","bas=C","bas=D","bas=D")
+val data = sc.parallelize(keysWithValuesList)
+// Create Key value pair
+val kv = data.map(_.split("=")).map(v => (v(0), v(1))).cache()
+val initialCount=0;
+// Data types need to be specified
+	val addToCounts = (i : Int,v : String) => v.toInt + i
+// Data types need to be specified
+	val SumPartialCounts = (p : Int, q: Int) => p+q
+val countByKey=kv.aggregateByKey(initialCount)(addToCounts,SumPartialCounts)
+// In line works
+val countByKey=kv.aggregateByKey(initialCount)((i,v) => 1 + i ,(p, q) => p+q)
+
+Now Define two functions (addToCounts, sumPartitionCounts)such which will produce following resutls:
+Output1: 
+countByKey.collect
+res3: Array[(String, int)] = Array ((foo,5),bar,3)
+
+import scala.collection._
+val initialSet =  scala.collection.mutable.HashSet.empty[String]
+
+	val addToSet = (i : scala.collection.mutable.HashSet[String],v : String) => i + v
+	val mergePartitionSets = (p : scala.collection.mutable.HashSet[String], q: scala.collection.mutable.HashSet[String]) => p++=q
+val uniqueByKey = kv.aggregateByKey(initialSet)(addToSet, mergePartitionSets)
+
+
+val initialSet =  scala.collection.mutable.HashSet.empty[String]
+
+val uniqueByKey = kv.aggregateByKey(initialSet)((i, v) => i + v, (p, q) => p ++= q)
+
+
+Now define two functions (addToSet, mergePartitionSets) such which will produce following results
+
+Output2:
+uniqueByKey.collect
+res4: Array[(String, scala.collection.mutable.HashSet[String])] =  Array((foo, Set(A,B)), bar, Set(C,D))

@@ -1,0 +1,51 @@
+Problem 12
+
+You have given a CSV file, which contain Employee and Salary data. You need to accomplish following.
+1. Load this file to HDFS.
+2. Create two tables in MySQL named as EMPLOYEE and SALARY. //// Must Be HIVE TABLE instead of MYSQL
+3. Once file in HDFS load in RDBMS using Sqoop on above two tables.
+4. Create an Avro file for this EMPLOYEE and SALARY tables.
+5. Extract the Schema from this Avro file (And without downloading AVRO file locally).
+
+****************.........Solution.........****************
+------------------------------------------------QUESTION 1-----------------------------------------------------
+hadoop fs -put empdata.csv saldata.csv /user/cloudera/spark_experiments/testdata
+
+------------------------------------------------QUESTION 2-----------------------------------------------------
+Create table EMPLOYEE (EMP_ID int, EMP_NAME varchar(20));
+Create table SALARYR (EMP_ID int, SALARY int);
+------------------------------------------------QUESTION 3-----------------------------------------------------
+sqoop export --connect  jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --fields-terminated-by ','  -m 1 -table EMPLOYEE --export-dir '/user/cloudera/spark_experiments/testdata/empdata.csv'
+sqoop export --connect  jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --fields-terminated-by ','  -m 1 -table SALARYR --export-dir '/user/cloudera/spark_experiments/testdata/saldata.csv'
+
+------------------------------------------------QUESTION 4-----------------------------------------------------
+sqoop import --connect  jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table EMPLOYEE -m 1 --as-avrodatafile --target-dir /user/cloudera/spark_experiments/testdata/employee_avro 
+sqoop import --connect  jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table SALARY -m 1 --as-avrodatafile --target-dir /user/cloudera/spark_experiments/testdata/salary_avro  
+
+------------------------------------------------QUESTION 5-----------------------------------------------------
+--Approach 1 : Use Spark DF to extract Metadata
+
+Wrong apporachs : 
+------------------------------------------------QUESTION ***-----------------------------------------------------
+----------------MYSQL Commands -- Wrong apporach Use the Table create earlier
+----------------Create table EMPLOYEE (EMP_ID int, EMP_NAME varchar(20));
+----------------LOAD DATA LOCAL INFILE '/home/cloudera/Study/cca_probalems/problem12/empdata.csv' INTO TABLE EMPLOYEE FIELDS TERMINATED BY ',' ENCLOSED by '"' Lines TERMINATED BY '\n';
+----------------Create table SALARY (EMP_ID int, SALARY int);
+----------------LOAD DATA LOCAL INFILE '/home/cloudera/Study/cca_probalems/problem12/saldata.csv' INTO TABLE SALARY  FIELDS TERMINATED BY ',' ENCLOSED by '"' Lines TERMINATED BY '\n';
+-------------MYSQL Commands -- Wrong apporach
+
+------------------------------------------------QUESTION ***-----------------------------------------------------
+Create table retail_db.EMPLOYEE (EMP_ID int, EMP_NAME STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY  ',' ;
+LOAD DATA  INPATH '/user/cloudera/spark_experiments/testdata/empdata.csv' INTO TABLE retail_db.EMPLOYEE;
+Create table retail_db.SALARY (EMP_ID int, SALARY int) ROW FORMAT DELIMITED FIELDS TERMINATED BY  ',' ;
+LOAD DATA  INPATH '/user/cloudera/spark_experiments/testdata/saldata.csv' INTO TABLE retail_db.SALARY;
+
+
+Create table retail_db.EMPLOYEE_avo (EMP_ID int, EMP_NAME STRING) STORED AS AVRO ;
+insert into retail_db.EMPLOYEE_avo  select * from retail_db.EMPLOYEE;
+
+Create table retail_db.SALARY_avo (EMP_ID int, SALARY int) STORED AS AVRO ;
+insert into retail_db.SALARY_avo  select * from retail_db.SALARY;
+
+
+

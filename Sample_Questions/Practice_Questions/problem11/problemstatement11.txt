@@ -1,0 +1,47 @@
+Problem 12
+
+You have been given following mysql database details.
+user=retail_dba 
+password=cloudera 
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+
+Please accomplish following activities.
+1. Import departments table as a text file in /user/cloudera/departments.
+2. After import insert 5 records to department table
+insert into departments values (10, 'Physics');
+insert into departments values (11, 'Chemistry');
+insert into departments values (12, 'Maths');
+insert into departments values (13, 'English');
+insert into departments values (14, 'Biology');
+3. Now import only new inserted records and append to existring directory , which has been created in first step.
+
+****************.........Solution.........****************
+------------------------------------------------QUESTION 1-----------------------------------------------------
+sqoop import --connect  jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table departments --target-dir /user/cloudera/departments_2018
+
+------------------------------------------------QUESTION 3-----------------------------------------------------
+sqoop import --connect  jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table departments --check-column  department_id --incremental append  --last-value 7 --append  --target-dir /user/cloudera/departments_2018
+
+
+Result:
+[cloudera@quickstart ~]$ hadoop fs -cat /user/cloudera/departments_2018/*
+2,Fitness
+3,Footwear
+4,Apparel
+5,Golf
+6,Outdoors
+7,Fan Shop
+### After insert and import
+[cloudera@quickstart ~]$ hadoop fs -cat /user/cloudera/departments_2018/*
+2,Fitness
+3,Footwear
+4,Apparel
+5,Golf
+6,Outdoors
+7,Fan Shop
+10,Physics
+11,Chemistry
+12,Maths
+13,English
+14,Biology

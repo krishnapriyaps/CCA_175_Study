@@ -1,0 +1,8 @@
+
+
+val dataRDD =  sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/EmployeeName.csv").map(_.split(',')).map(a =>  (a(1),a(0)))
+
+val sortedRDD = dataRDD.sortByKey().coalesce(1)
+
+sortedRDD.map(a => a._2+","+a._1).saveAsTextFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/outputp11")
+

@@ -1,0 +1,31 @@
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkConf
+import scala.collection._
+
+object Problem13{
+
+	def main(args : Array[String]){
+		val conf = new SparkConf().setAppName("Problem1")
+		val sc = new SparkContext(conf)
+		
+		val keysWithValuesList = Array ("foo=A","foo=A","foo=A","foo=A","foo=B","bas=C","bas=D","bas=D")
+		val dataRDD = sc.parallelize(keysWithValuesList)
+		
+		val keyValPairRDD = dataRDD.map(_.split("=")).map(v => (v(0),v(1))).cache()
+
+		// val groupByKeyRDD = keyValPairRDD.groupByKey()
+		// groupByKeyRDD.collect().foreach(println)
+		
+		// val initialCount= mutable.HashSet.empty[String];
+		val initialCount :mutable.HashSet[String] = mutable.HashSet("1")
+		
+		val addToCounts = (s : mutable.HashSet[String], v:String) => s + v+ "2"
+		val mergePartianSets = (p1 : mutable.HashSet[String], p2: mutable.HashSet[String]) => p1 ++= p2 ;
+
+		val uniqueByKey=keyValPairRDD.aggregateByKey(initialCount)(addToCounts,mergePartianSets)
+		uniqueByKey.collect().foreach(println)
+		println("done")
+	}
+}
+
+

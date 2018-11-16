@@ -1,0 +1,10 @@
+val list = List( ("Deepak" , "male", 4000), ("Deepak" , "male", 2000), ("Deepika" , "female", 2000),("Deepak" , "female", 2000), ("Deepak" , "male", 1000) , ("Neeta" , "female", 2000))
+
+Now write a Spark program to load this list as an RDD and do the sum of cost for combination of
+name and sex (as key))
+
+val dataRDD =  sc.parallelize(list).map(a => (a._1+','+a._2, a._3))
+
+
+dataRDD.reduceByKey((a,b) => a+b) collect
+res41: Array[(String, Int)] = Array((Deepak,female,2000), (Deepika,female,2000), (Deepak,male,7000), (Neeta,female,2000))

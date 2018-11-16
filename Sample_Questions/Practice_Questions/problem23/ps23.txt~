@@ -1,0 +1,26 @@
+//READ LIST TO REMOVE
+val removeData = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/testdata/Remove.txt").flatMap(_.split(",")).map(_.trim.toLowerCase()).collect()
+//removeData: Array[String] = Array(hello, is, this, the)    
+
+// Verifiying data in removeData
+var word = ""
+for (word <- removeData) { println(">"+word+"<")}
+
+//SET BREADCAST VARIABLE 
+val broadCastVar = sc.broadcast(removeData)
+
+//CONTENT RDD
+val cententRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/testdata/Content.txt").flatMap(_.split("\\s"))
+//res3: Array[String] = Array(Hello, this, is, ABCTech.com, This, is, TechABY.com, Apache, Spark, Training, This, is, Spark, Learning, Session, Spark, is, faster, than, MapReduce)
+
+// FILTER WORDS IN BROADCAST VARIABLE
+val cententFilterdRDD = cententRDD.filter(word => !(broadCastVar.value.contains(word.toLowerCase())))
+//res2: Array[String] = Array(ABCTech.com, TechABY.com, Apache, Spark, Training, Spark, Learning, Session, Spark, faster, than, MapReduce)
+
+// WORD COUNt
+val wcTotal = cententRDD.map(word => (word, 1)).reduceByKey(_ + _).map(line => line._1+"="+line._2)
+val wcFiltered = cententFilterdRDD.map(word => (word, 1)).reduceByKey(_ + _).map(line => line._1+"="+line._2)
+
+// SAVE AS TEXT FILE
+wcTotal.saveAsTextFile("hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/testdata/ps23/total")
+wcFiltered.saveAsTextFile("hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/testdata/ps23/filtered")

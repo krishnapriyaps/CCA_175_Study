@@ -1,0 +1,3 @@
+Anupam|Male|45|Daulat
+Dan|Male|25|James
+Sita|Female|28|Ram

@@ -1,0 +1,24 @@
+You have been given bloew code snippet (do a sum of values by key), with intermediate output.
+
+val keysWithValuesList = Array ("foo=A","foo=A","foo=A","foo=A","foo=B","bas=C","bas=D","bas=D")
+val data = sc.parallelize(keysWithValuesList)
+// Create Key value pair
+val kv = data.map(_.split("=")).map(v => (v(0), v(1))).cache()
+val initialCount=0;
+val countByKey=kv.aggregateByKey(initialCount)(addToCounts,SumPartialCounts)
+
+Now Define two functions (addToCounts, sumPartitionCounts)such which will produce following resutls:
+
+Output1: 
+countByKey.collect
+res3: Array[(String, int)] = Array ((foo,5),bar,3)
+
+import scala.collection._
+val initialSet =  scala.collection.mutable.HashSet.empty[String]
+val uniqueByKey = kv.aggregateByKey(initialSet)(addToSet, mergePartitionSets)
+
+Now define two functions (addToSet, mergePartitionSets) such which will produce following results
+
+Output2:
+uniqueByKey.collect
+res4: Array[(String, scala.collection.mutable.HashSet[String])] =  Array((foo, Set(A,B)), bar, Set(C,D))

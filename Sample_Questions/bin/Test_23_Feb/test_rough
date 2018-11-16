@@ -1,0 +1,14 @@
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table products --target-dir p93_products_23_feb --fields-terminated-by "|" -m 2
+jdbc URL = 
+Columns of products table : (product_id | product_category_id | product_name |
+product_description | product_price | product_image )
+Please accomplish following activities.
+1. Copy "retaildb.products" table to hdfs in a directory p93_products
+2. Now sort the products data sorted by product price per category, use productcategoryid
+colunm to group by category
+
+val dataRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/p93_products_23_feb/part*")
+
+val pairedRDD = dataRDD.map(r => (r.split('|')(1), (r,r.split('|')(4))))
+
+val sortedRDD = pairedRDD.groupByKey().mapValues( data => data.toList.sortBy(_._2))

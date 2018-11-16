@@ -1,0 +1,7 @@
+
+sqoop import-all-tables --username retail_dba  --password cloudera  --connect "jdbc:mysql://quickstart:3306/retail_db" -m 1 --fields-terminated-by "|"  --hive-import  --hive-database retail_db --compression-codec snappy
+
+invalidate metadata
+
+
+select * from produnt_categories limit 5 

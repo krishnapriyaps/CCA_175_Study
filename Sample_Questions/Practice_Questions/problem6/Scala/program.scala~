@@ -1,0 +1,23 @@
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkConf
+
+val conf = new SparkConf().setAppName("Sort")
+val sc = new SparkContext(conf)
+
+
+val dataRdd = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/p93_products_sub/part*")
+dataRdd.take(15).foreach(println)
+
+val dataFieldSplitRDD = dataRdd.map(l => l.split("|"))
+dataFieldSplitRDD.take(15).foreach(println)
+
+
+case class Person(product_id: Int, product_category_id: Int, product_name: String, product_description: String,product_price: String,product_image: String)
+val dataDF = dataRdd.map(_.split("|")).map(l => Person(l[0].trim.toInt,l[1].trim.toInt,l[2),l[3],l[4],l[5])).toDF()
+
+
+
+val dataFrameRdd =sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/p93_products_sub/part*").map(_.split("|")).toDF("product_id","product_category_id","product_name","product_description","product_price","product_image")
+
+val dataFrameRdd =sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/p93_products_sub_2/part*").map(_.split(",")).toDF("product_id","product_category_id","product_name","product_description","product_price","product_image")
+val dataDF = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/p93_products_sub_2/part*").map(_.split(",")).map(l => Person(l[0].trim.toInt,l[1].trim.toInt,l[2),l[3],l[4],l[5])).toDF()

@@ -1,0 +1,37 @@
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table orders --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/test_match_25/orders" --fields-terminated-by "|" 
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table order_items --target-dir "hdfs://quickstart.cloudera:8020/user/cloudera/test_match_25/order_items" --fields-terminated-by "|"
+
+val ordersRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_25/orders/*").map(r => (r.split('|')(0), r))
+
+val orderItemsRDD =  sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_25/order_items/*").map(r => (r.split('|')(1),r))
+
+val joinedRDD = ordersRDD.join(orderItemsRDD)
+
+val revenuePerDayPerOrder = joinedRDD.map(r => ( r._2._1.split('|')(0)+","+r._2._1.split('|')(1), r._2._2.split('|')(4).trim.toFloat)).reduceByKey((f1,f2) => f1+f2)
+
+//tatal reenue
+
+
+val initalVal = 0.0
+val totalfunc1 =  (i:Double, value:Double) => i+value
+val totalFunc2 = (s:Double, s2:Double) => s+s2
+
+val dateRDD = joinedRDD.map( r=> (r._2._1.split('|')(1), r._2._2.split('|')(4).trim.toDouble))
+
+val totalRevenuePerday =  dateRDD.aggregateByKey(initalVal)(totalfunc1,totalFunc2)
+
+// average
+
+val createCombiner = (value : Double) => (1, value)
+
+val sumFunction1 = ( c1: (Int,Double), value: Double) => ( (c1._1+1, c1._2+value))
+
+
+val sumFunction3 = ( c1 : (Int, Double), c2: (Int, Double)) => { (c1._1+c2._1 , c1._2+c2._2 )}
+
+
+val averageRevenuePerDate = dateRDD.combineByKey(createCombiner, sumFunction1,sumFunction3)
+
+val avdRDD = averageRevenuePerDate.mapValues( a => a._2/a._1 )

@@ -1,0 +1,21 @@
+Problem 16
+
+You have been given following mysql database details as well as other info.
+user=retail_dba
+password=cloudera
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Please accomplish following.
+1. Create a table in retailedb with following definition.
+CREATE table departments_export (department_id int(11), department_name varchar(45),
+created_date T1MESTAMP DEFAULT NOWQ);
+2. Now import the data from following hdfs dir to departments_export 
+
+//Prep import departments to hdfs
+sqoop import  --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera -table departments --target-dir hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/departments
+
+Q1
+CREATE table departments_export (department_id int(11), department_name varchar(45), created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)
+
+Q2
+sqoop export --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera   --table departments_export  --columns department_id,department_name --export-dir hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/departments -m 2

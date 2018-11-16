@@ -1,0 +1,16 @@
+Problem: 22
+
+You have been given MySQL DB with following details.
+user=retail_dba
+password=cloudera
+database=retail_db
+table=retail_db.products
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Columns of products table : (product_id | product_category_id | product_name |
+product_description | product_price | product_image )
+Please accomplish following activities.
+1. Copy "retaildb.products" table to hdfs in a directory p93_products
+2. Now sort the products data sorted by product price per category, use productcategoryid
+colunm to group by category
+
+

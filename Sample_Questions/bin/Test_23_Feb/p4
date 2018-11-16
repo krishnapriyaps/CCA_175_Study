@@ -1,0 +1,14 @@
+1. Load this file from hdfs and sort it by name and save it back as (id,name) in results directory.
+However, make sure while saving it should be able to write In a single file
+case class Employee  (id: String, Name: String)
+val DataRDD =  sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb23/EmployeeName.csv").map(_.split(',')).map(a => Employee(a(0), a(1)))
+
+val sqlCt =  new org.apache.spark.sql.SQLContext(sc)
+val empDF = sqlCt.createDataFrame(DataRDD)
+empDF.registerTempTable("Employee")
+
+val sortedRDD = sqlCt.sql("select * from Employee order by Name").map(row => row(0)+","+row(1))
+sortedRDD.coalesce(1)
+
+sortedRDD.coalesce(1).saveAsTextFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb23/EmployeeNameSorted")
+

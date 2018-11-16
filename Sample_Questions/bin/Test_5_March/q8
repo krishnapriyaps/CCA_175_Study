@@ -1,0 +1,13 @@
+
+val contentRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/Content.txt").flatMap(_.split("\\s"))
+
+val removeTextArray = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_5/Remove.txt").flatMap(_.split(",").map(_.trim)).collect
+
+val bv = sc.broadcast(removeTextArray)
+
+val filteredContentRDD = contentRDD.filter(x => !bv.value.contains(x)).map(x => (x, 1))
+
+filteredContentRDD.reduceByKey((a,b) => a+b) collect
+
+res38: Array[(String, Int)] = Array((Apache,1), (MapReduce,1), (Session,1), (This,2), (Training,1), (Learning,1), (Spark,3), (ABCTech.com,1), (faster,1), (than,1), (TechABY.com,1))
+

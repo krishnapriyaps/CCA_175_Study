@@ -1,0 +1,8 @@
+Data File Location : '/hdfs/family4'
+Stored other properties : "'Database creator'='Vedic'" , "'Database_Created_On'='2016-01-01'"
+
+create database family4 LOCATION "/hdfs/family4" WITH DBPROPERTIES ('Database creator'='Vedic','Database_Created_On'='2016-01-01')
+
+create table family4.family_details (Name String,Sex String,Age int,Father_Name string) row format delimited fields terminated by "|"
+
+Load data LOCAL inpath "/home/cloudera/Study/cca_probalems/Test_5_March/family_details.txt" into table family4.family_details;

@@ -1,0 +1,26 @@
+3070811,1963,1096,,"US","CA",,1,
+3022811,1963,1096,,"US","CA",,1,56
+3033811,1963,1096,,"US","CA",,1,23
+
+Below is the code snippet to process this tile.
+
+val field= sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb23/file2.txt")
+val mapper = field.map(x=> x.split(","))
+mapper.map(x => x.map(x=> {B})).collect
+Please fill in A and B so it can generate below final output
+Array(Array(3070811,1963,109G, 0, "US", "CA", 0,1, 0)
+,Array(3022811,1963,1096, 0, "US", "CA", 0,1, 56)
+,Array(3033811,1963,1096, 0, "US", "CA", 0,1, 23)
+
+A = x.split(",", -1)
+val B = (x: Array[String]) => for ( str <- x){ if (str.isEmpty){ 0 } else {str}}
+
+mapper.map(x => x.map(x=> (x: Array[String]) => for ( str <- x){ if (str.isEmpty){ 0 } else {str}})
+
+val x = (3022811,1963,1096,,"US","CA",,1,56)
+val xi = x.productIterator
+while (xi.hasNext){val x1= xi.next ; x1.getClass match{ case "String(\"String\")" => if(x1.toString.isEmpty) return 0 else return x1}}
+
+val mapper = field.map(x=> x.split(",",-1))
+mapper.map(x => x.map(x=> {if(x.size == 0) 0 else x})).collect
+

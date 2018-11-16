@@ -1,0 +1,56 @@
+
+
+case class Patient (patientID : Int ,name:String,dateOfBirth:String,lastVisitDate:String)
+val dataRdd = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_5/patient.csv").map(_.split(",")).map(a => Patient(a(0).trim.toInt, a(1), a(2), a(3)))
+
+import org.apache.spark.sql._
+val sqlCon = new SQLContext(sc)
+
+val df = sqlCon.createDataFrame(dataRdd)
+
+df.registerTempTable("Patient")
+
+// Q1
+sqlCon.sql("select * from Patient where TO_DATE(cast(UNIX_TIMESTAMP(lastVisitDate , 'yyyy-MM-dd') as TIMESTAMP)) < now() and  TO_DATE(cast(UNIX_TIMESTAMP(lastVisitDate , 'yyyy-MM-dd') as TIMESTAMP)) > '2012-09-15'") show
+or 
+sqlCon.sql("select * from Patient where TO_DATE(lastVisitDate )  < now() and TO_DATE(lastVisitDate) > '2012-09-15'") show
+
+//Q2
+
+sqlCon.sql("select * from Patient where year(TO_DATE(dateOfBirth ))= '2011'") show
+
+//Q3 Find all the patients age
+sqlCon.sql("select patientID, name, dateOfBirth, (datediff(NOW(), TO_DATE(cast(UNIX_TIMESTAMP(dateOfBirth , 'yyyy-MM-dd') as TIMESTAMP))) /365 )as age, lastVisitDate from Patient ") show
++---------+-------+-----------+------------------+-------------+
+|patientID|   name|dateOfBirth|               age|lastVisitDate|
++---------+-------+-----------+------------------+-------------+
+|     1001|Ah Teck| 1991-12-31|26.197260273972603|   2012-01-20|
+|     1002|  Kumar| 2011-10-29|6.3561643835616435|   2012-09-20|
+|     1003|    Ali| 2011-01-30| 7.101369863013699|   2012-10-21|
++---------+-------+-----------+------------------+-------------+
+
+
+
+//Q4 List patients whose last visited more than 60 days ago
+sqlCon.sql("select patientID, name, dateOfBirth, (datediff(NOW(), TO_DATE(cast(UNIX_TIMESTAMP(lastVisitDate , 'yyyy-MM-dd') as TIMESTAMP))))as last_wisited_date, lastVisitDate from Patient where datediff(NOW(), TO_DATE(cast(UNIX_TIMESTAMP(lastVisitDate , 'yyyy-MM-dd') as TIMESTAMP))) > 60") show
++---------+-------+-----------+-----------------+-------------+
+|patientID|   name|dateOfBirth|last_wisited_date|lastVisitDate|
++---------+-------+-----------+-----------------+-------------+
+|     1001|Ah Teck| 1991-12-31|             2237|   2012-01-20|
+|     1002|  Kumar| 2011-10-29|             1993|   2012-09-20|
+|     1003|    Ali| 2011-01-30|             1962|   2012-10-21|
++---------+-------+-----------+-----------------+-------------+
+
+
+//Q5 Select patients 18 years old or younger
+
+sqlCon.sql("select patientID, name, dateOfBirth, (datediff(NOW(), TO_DATE(cast(UNIX_TIMESTAMP(dateOfBirth , 'yyyy-MM-dd') as TIMESTAMP))) /365 )as age, lastVisitDate from Patient where (datediff(NOW(), TO_DATE(cast(UNIX_TIMESTAMP(dateOfBirth , 'yyyy-MM-dd') as TIMESTAMP))) /365 ) <=18") show
++---------+-----+-----------+------------------+-------------+
+|patientID| name|dateOfBirth|               age|lastVisitDate|
++---------+-----+-----------+------------------+-------------+
+|     1002|Kumar| 2011-10-29|6.3561643835616435|   2012-09-20|
+|     1003|  Ali| 2011-01-30| 7.101369863013699|   2012-10-21|
++---------+-----+-----------+------------------+-------------+
+
+
+

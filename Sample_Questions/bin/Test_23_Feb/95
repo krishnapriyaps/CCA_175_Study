@@ -1,0 +1,11 @@
+You have been given belwo list in scala (name,sex,cost) for each work done.
+val DataList = List( ("Deeapak" , "male", 4000), ("Deepak" , "male", 2000), ("Deepika" , "female",2000),("Deepak" , "female", 2000), ("Deepak" , "male", 1000) , ("Neeta" , "female", 2000))
+
+val datRDD = sc.parallelize(DataList)
+Now write a Spark program to load this list as an RDD and do the sum of cost for combination of
+name and sex (as key))
+
+
+val pairRDD = datRDD.map(a => (a._1+","+a._2, a._3))
+
+pairRDD.reduceByKey( (x, y) => x+ y).collect

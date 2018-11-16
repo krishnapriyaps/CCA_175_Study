@@ -1,0 +1,144 @@
+1---------------Problem Scenario 7 :
+You have been given following data format file. Each datapoint is separated by '|'.
+Name|Sex|Age|Father_Name
+Example Record
+Anupam|Male|45|Daulat
+
+Create an Hive database named "Family" with following details. You must take care that if database is already exist it should not be created again.
+Comment : "This database will be used for collecting various family data and their daily habits"
+Data File Location : '/hdfs/family'
+Stored other properties : "'Database creator'='Vedic'" , "'Database_Created_On'='2016-01-01'"
+Also write a command to check, whether database has been created or not, with new properties.
+load data to this table
+2---------------Problem Scenario 8 :
+You already have two tables (Hive) name "SAMPLE_07" and "SAMPLE_08" in a default schema. With following structure (both the tables have same structure).
+
+code string
+description string
+total_emp int
+salary int
+
+Create another table named Employee100K2 in a Family schema, which has all the employees whose salary is >= 100000 from both the tables.
+
+3---------------Problem Scenario 9 :
+You have been given a database named retail_db with following detail. Which consists 6 tables and datamodel you can see in image.
+user=retail_dba 
+password=cloudera 
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+
+1. Import the entire database in a file format this good for analytical applications on Hadoop e.g. group your data in columns and should be able to query this data using Impala.
+Also, while importing to save space you do compression using snappy codec.
+2. In impala write the query, which can produce 5 Most popular product categories and save the results in HadoopExam/best_categories.csv in hdfs .
+3. In Impala write the query, which can produce top 10 revenue generating products and save the results in HadoopExam/best_products.csv  in hdfs .
+
+4---------------Problem Scenario  12 :
+You have given a CSV file, which contain Employee and Salary data. You need to accomplish following.
+1. Load this file to HDFS.
+2. Create two tables in MySQL named as EMPLOYEE and SALARY. 
+3. Once file in HDFS load in RDBMS using Sqoop on above two tables.
+4. Create an Avro file for this EMPLOYEE and SALARY tables.
+5. Extract the Schema from this Avro file (And without downloading AVRO file locally).
+
+5---------------Problem 31:
+You have been given following mysql database details as well as
+other info.
+user=retail_dba
+password=cloudera
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Please accomplish below assignment.
+1. Create a table in hive as below.
+create table departments_hive3(department_id int, department_name string);
+2. Now import data from mysql table departments to this hive table. Please make sure that
+data should be visible using below hive command, select" from departments_hive
+
+
+7---------------Problem Scenario 21 :
+You have been given belwo list in scala (name,sex,cost) for each work done.
+List( ("Deeapak" , "male", 4000), ("Deepak" , "male", 2000), ("Deepika" , "female",
+2000),("Deepak" , "female", 2000), ("Deepak" , "male", 1000) , ("Neeta" , "female", 2000))
+Now write a Spark program to load this list as an RDD and do the sum of cost for combination of
+name and sex (as key))
+
+8---------------Problem Scenario 23 :
+You have given following two files
+1. Content.txt: Contain a huge text file containing space separated words.
+2. Remove.txt: Ignore/filter all the words given in this file (Comma Separated).
+Write a Spark program which reads the Content.txt file and load as an RDD, remove all the
+words from a broadcast variables (which is loaded as an RDD of words from Remove.txt).
+And count the occurrence of the each word and save it as a text file in HDFS.
+Content.txt
+Hello this is ABCTech.com
+This is TechABY.com
+Apache Spark Training
+This is Spark Learning Session
+Spark is faster than MapReduce
+Remove.txt
+Hello, is, this, the
+
+9---------------Problem Scenario 20 :
+You have been given sample data as below in a file called spark15/file1.txt
+3070811,1963,1096,,"US","CA",,1,
+3022811,1963,1096,,"US","CA",,1,56
+3033811,1963,1096,,"US","CA",,1,23
+
+Below is the code snippet to process this tile.
+
+val field= sc.textFile("spark15/filel.txt")
+val mapper = field.map(x=> A)
+mapper.map(x => x.map(x=> {B})).collect
+Please fill in A and B so it can generate below final output
+Array(Array(3070811,1963,109G, 0, "US", "CA", 0,1, 0)
+,Array(3022811,1963,1096, 0, "US", "CA", 0,1, 56)
+,Array(3033811,1963,1096, 0, "US", "CA", 0,1, 23)
+
+10---------------Problem Scenario 19 :
+You have been given below patient data in csv format,
+patientID,name,dateOfBirth,lastVisitDate
+1001,Ah Teck,1991-12-31,2012-01-20
+1002,Kumar,2011-10-29,2012-09-20
+1003,Ali,2011-01-30,2012-10-21
+Accomplish following activities.
+1 . Find all the patients whose lastVisitDate between current time and '2012-09-15'
+2 . Find all the patients who born in 2011
+3 . Find all the patients age
+4 . List patients whose last visited more than 60 days ago
+5 . Select patients 18 years old or younger
+
+11---------------Problem Scenario 18 :
+You have been given a file named spark7/EmployeeName.csv
+(id,name).
+EmployeeName.csv
+E01,Lokesh
+E02,Bhupesh
+E03,Amit
+E04,Ratan
+E05,Dinesh
+E06,Pavan
+E07,Tejas
+E08,Sheela
+E09,Kumar
+E10,Venkat
+1. Load this file from hdfs and sort it by name and save it back as (id,name) in results directory.
+However, make sure while saving it should be able to write In a single file.
+
+12---------------Problem Scenario 15 :
+You have been given MySQL DB with following details. You have been given
+following product.csv file 
+product.csv productID,productCode,name,quantity,price
+1001,PEN,Pen Red,5000,1.23
+1002,PEN,Pen Blue,8000,1.25
+1003,PEN,Pen Black,2000,1.25
+1004,PEC,Pencil 2B,10000,0.48
+1005,PEC,Pencil 2H,8000,0.49
+1006,PEC,Pencil HB,0,9999.99
+Now accomplish following activities.
+
+In Continuation of previous question, please accomplish following activities.
+1. Select all the products which has product code as null
+2. Select all the products, whose name starts with Pen and results should be order by Price
+descending order.
+3. Select all the products, whose name starts with Pen and results should be order by
+Price descending order and quantity
+4. Select top 2 products by price

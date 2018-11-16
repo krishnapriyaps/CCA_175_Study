@@ -1,0 +1,35 @@
+Problem Scenario 80 : You have been given MySQL DB with following details.
+user=retail_dba
+password=cloudera
+database=retail_db
+table=retail_db.products
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Columns of products table : (product_id | product_category_id | product_name |
+product_description | product_price | product_image )
+Please accomplish following activities.
+1. Copy "retaildb.products" table to hdfs in a directory p93_products
+2. Now sort the products data sorted by product price per category, use productcategoryid
+colunm to group by category
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table products  --columns "product_id, product_category_id, product_name,product_description,product_price,product_image"  --target-dir p93_products -m 2 --fields-terminated-by "~" --hive-import --hive-table p93_products --hive-database retail_db  --hive-overwrite
+
+
+#To understant sort creating a subset of data with sqoop custom query
+# select * from retail_db.products Join (select max(product_id) as product_id from retail_db.products group by product_category_id limit 10) T ON products.product_id = T.product_id
+
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --query 'select products.product_id , products.product_category_id, products.product_name, products.product_description, products.product_price, products.product_image from retail_db.products Join (select max(product_id) as product_id from retail_db.products group by product_category_id limit 10) T ON products.product_id = T.product_id WHERE $CONDITIONS'  --split-by 'products.product_id' -m 2 --fields-terminated-by "|" --target-dir p93_products_sub
+
+Observation
+" nad ' are differnt 
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --query "select products.* from retail_db.products Join (select max(product_id) as product_id from retail_db.products group by product_category_id limit 10) T ON products.product_id = T.product_id WHERE $CONDITIONS"  --split-by 'products.product_id' -m 2 --fields-terminated-by "|" --target-dir p93_products_sub
+ -- This failed saying query should have WHERE $CONDITIONS ; which was already there but not picked up with "
+
+
+
+
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --query 'select products.product_id , products.product_category_id, products.product_name, products.product_description, products.product_price, products.product_image from retail_db.products Join (select max(product_id) as product_id from retail_db.products group by product_category_id limit 10) T ON products.product_id = T.product_id WHERE $CONDITIONS'  --split-by 'products.product_id' -m 2 --fields-terminated-by "," --target-dir p93_products_sub_2
+
+
+Data Imported to : hdfs://quickstart.cloudera:8020/user/cloudera/p93_products_sub_2/pa* ; Delimiter ','
+Data Imported to : hdfs://quickstart.cloudera:8020/user/cloudera/p93_products_sub/pa* ; Delimiter '|'

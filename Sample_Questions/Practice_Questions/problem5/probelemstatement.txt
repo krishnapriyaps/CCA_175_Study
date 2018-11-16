@@ -1,0 +1,61 @@
+You have been given following data format file. Each data point is sparated by '|'
+Name|location1,Location2,...,Location5|Sex,Age|Father_Name:Number_if_Child
+Example Record
+Anupam|Delhi,Mumbai,Chennai|Male,45|Daulat:4
+Write a hive DDL script to create a table named "FamilyHead" which should be capable of holding these data. Also note that it should use complex data type e.g. map,Array,Struct
+
+-----------------------------------------------------------
+create table FamilyHead2 (Name String, Localtion Array <String>, Info Struct <genter :String, age: Bigint>, family Map <String,Bigint>) row format delimited fields terminated by '|' collection items terminated by ',' map keys terminated by ':';
+LOAD DATA INPATH 'hdfs://quickstart.cloudera:8020/user/cloudera/cca_probalems/problem5/datafile.txt' INTO TABLE FamilyHead2 ****Wromg Insert failed
+
+-----------------------------------------------------------
+create table FamilyHead (Name String, Localtion Array <String>, Info Map <String,Bigint>, family  Struct <dad :String, siblings: Bigint>) row format delimited fields terminated by '|' collection items terminated by ',' map keys terminated by ':';
+LOAD DATA INPATH 'hdfs://quickstart.cloudera:8020/user/cloudera/cca_probalems/problem5/datafile.txt' INTO TABLE FamilyHead ***Wrong - Insert sucess data in Indo and family not read properly
+select * from FamilyHead;
+OK
+Anupam	["Delhi","Mumbai","Chennai"]	{"Male":null,"45":null}	{"dad":"Daulat:4","siblings":null}
+-----------------------------------------------------------
+
+create table FamilyHead3 (Name String, Localtion Array <String>, Info Map <String,Bigint>, family  Struct <dad :String, siblings: Bigint>) row format delimited fields terminated by '|' collection items terminated by ',' map keys terminated by ',';
+LOAD DATA INPATH 'hdfs://quickstart.cloudera:8020/user/cloudera/cca_probalems/problem5/datafile.txt' INTO TABLE FamilyHead3 ***Wrong
+
+select * from FamilyHead3;
+OK
+Anupam	["Delhi","Mumbai","Chennai"]	{"Male":null,"45":null}	{"dad":"Daulat:4","siblings":null}
+-----------------------------------------------------------
+
+create table FamilyHead4 (Name String, Localtion Array <String>, Info Struct <genter :String, age: Bigint>, family Map <String,Bigint>) row format delimited fields terminated by '|' collection items terminated by ',' map keys terminated by ',';
+LOAD DATA INPATH 'hdfs://quickstart.cloudera:8020/user/cloudera/cca_probalems/problem5/datafile.txt' INTO TABLE FamilyHead4  ***Wrong 
+
+select * from FamilyHead4;
+OK
+Anupam	["Delhi","Mumbai","Chennai"]	{"genter":"Male","age":45}	{"Daulat:4":null}
+
+-----------------------------------------------------------
+
+create table FamilyHead5 (Name String, Localtion Array <String>, Info Struct <genter :String, age: Bigint>, family Map <String,Bigint>) row format delimited fields terminated by '|' collection items terminated by ',' map keys terminated by ':';
+LOAD DATA INPATH 'hdfs://quickstart.cloudera:8020/user/cloudera/cca_probalems/problem5/datafile.txt' INTO TABLE FamilyHead5 
+LOAD DATA INPATH 'hdfs://quickstart.cloudera:8020/user/cloudera/cca_probalems/problem5/datafile2.txt' INTO TABLE FamilyHead5 
+select * from default.familyhead5;
+OK
+Anupam	["Delhi","Mumbai","Chennai"]	{"genter":"Male","age":45}	{"Daulat":4}
+Rakesh	["Delhi","Mumbai","Chennai"]	{"genter":"Male","age":45}	{"Edna":1,"DAN":6}
+
+select name,localtion[1],info.age , family["Edna"]  from FamilyHead5;
+Anupam	Mumbai	45	NULL
+Rakesh	Mumbai	45	1
+
+-----------------------------------------------------------
+
+create table FamilyHead6 (Name String, Localtion Array <String>, Info Struct <genter :String, age: Bigint>, family Map <String,Bigint>) row format delimited fields terminated by '|' collection items terminated by ':' map keys terminated by ',';
+LOAD DATA INPATH 'hdfs://quickstart.cloudera:8020/user/cloudera/cca_probalems/problem5/datafile.txt' INTO TABLE FamilyHead6
+
+select * from FamilyHead6;
+OK
+Anupam	["Delhi,Mumbai,Chennai"]	{"genter":"Male,45","age":null}	{"Daulat":null,"4":null}
+-----------------------------------------------------------
+
+
+
+
+select Name,Localtion[1], Info['Male'], family.dad from FamilyHead

@@ -1,0 +1,7 @@
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table products --target-dir hdfs://quickstart.cloudera:8020/user/cloudera/test_match_5/p93_products  --fields-terminated-by "|"
+
+val dataRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_5/p93_products/part*")
+//product_id | product_category_id | product_name | product_description | product_price | product_image
+
+val pairRDD = dataRDD.map(a => (a.split('|')(1), (a.split('|')(4),a))).groupByKey().mapValues(a => a.toList.sortBy(_._1).map(_._2))
+

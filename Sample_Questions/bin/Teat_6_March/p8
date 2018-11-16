@@ -1,0 +1,15 @@
+
+Array(Array(3070811,1963,109G, 0, "US", "CA", 0,1, 0)
+,Array(3022811,1963,1096, 0, "US", "CA", 0,1, 56)
+,Array(3033811,1963,1096, 0, "US", "CA", 0,1, 23)
+
+
+val field= sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/test_match_5/testp8.txt")
+val mapper = field.map(x=> x.split(",", -1))
+mapper.map(x => x.map(x=> {if(x.size == 0) 0 else x})).collect
+
+Array[Array[Any]] = Array(Array(3070811, 1963, 1096, 0, "US", "CA", 0, 1, 0), 
+Array(3022811, 1963, 1096, 0, "US", "CA", 0, 1, 56), 
+Array(3033811, 1963, 1096, 0, "US", "CA", 0, 1, 23))
+
+

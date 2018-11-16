@@ -1,0 +1,11 @@
+hadoop fs 
+
+hadoop fs -mkdir hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_12/Employee
+
+hadoop fs -touchz hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_12/Employee/quicktech.txt
+
+hadoop fs -put -f quicktech.txt hadoopexam.txt hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_12/Employee
+
+hadoop fs -getmerge -nl hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_12/Employee/quicktech.txt hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_12/Employee/hadoopexam.txt MergedEmployee.txt
+
+

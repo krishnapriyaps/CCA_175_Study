@@ -1,0 +1,125 @@
+1--------------------Problem: 22
+You have been given MySQL DB with following details.
+user=retail_dba
+password=cloudera
+database=retail_db
+table=retail_db.products
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Columns of products table : (product_id | product_category_id | product_name |
+product_description | product_price | product_image )
+Please accomplish following activities.
+1. Copy "retaildb.products" table to hdfs in a directory p93_products
+2. Now sort the products data sorted by product price per category, use productcategoryid
+colunm to group by category
+
+2--------------------Problem 31:
+You have been given following mysql database details as well as
+other info.
+user=retail_dba
+password=cloudera
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Please accomplish below assignment.
+1. Create a table in hive as below.
+create table departments_hive(department_id int, department_name string);
+2. Now import data from mysql table departments to this hive table. Please make sure that
+data should be visible using below hive command, select" from departments_hive
+
+3--------------------Problem 29:
+You have been given MySQL DB with following details.
+user=retail_dba
+password=cloudera
+database=retail_db
+table=retail_db.categories
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Please accomplish following activities.
+1. Import data from categories table, where category=22 (Data should be stored in categories subset)
+2. Import data from categories table, where category>22 (Data should be stored in
+categories_subset_2)
+3. Import data from categories table, where category between 1 and 22 (Data should be
+stored in categories_subset_3)
+4. While importing catagories data change the delimiter to '|' (Data should be stored in
+categories_subset_S)
+5. Importing data from catagories table and restrict the import to category_name,category
+id columns only with delimiter as '|'
+6. Add null values in the table using below SQL statement ALTER TABLE categories
+modify category_department_id int(11); INSERT INTO categories values
+(eO.NULL.'TESTING');
+7. Importing data from catagories table (In categories_subset_17 directory) using '|'
+delimiter and categoryjd between 1 and 61 and encode null values for both string and non
+string columns.
+8. Import entire schema retail_db in a directory categories_subset_all_tables
+
+4--------------------Problem 28:
+You have to run your Spark application on yarn with each executor
+Maximum heap size to be 512MB and Number of processor cores to allocate on each
+executor will be 1 and Your main application required three values as input arguments V1
+V2 V3.
+Please replace XXX, YYY, ZZZ
+./bin/spark-submit -class com.hadoopexam.MyTask --master yarn-cluster--num-executors 3
+--driver-memory 512m XXX YYY lib/hadoopexam.jarZZZ
+
+5--------------------Problem 27:
+You have been given below code snippet.
+val pairRDDI = sc.parallelize(List( ("cat",2), ("cat", 5), ("book", 4),("cat", 12))) val
+pairRDD2 = sc.parallelize(List( ("cat",2), ("cup", 5), ("mouse", 4),("cat", 12)))
+operation1
+Write a correct code snippet for operationl which will produce desired output, shown below.
+Array[(String, (Option[lnt], Option[lnt]))] = Array((book,(Some(4},None)),
+(mouse,(None,Some(4))), (cup,(None,Some(5))), (cat,(Some(2),Some(2)),
+(cat,(Some(2),Some(12))), (cat,(Some(5),Some(2))), (cat,(Some(5),Some(12))),
+(cat,(Some(12),Some(2))), (cat,(Some(12),Some(12)))J
+
+6--------------------Problem Scenario 96 : Your spark application required extra Java options as below. -
+XX:+PrintGCDetails-XX:+PrintGCTimeStamps
+Please replace the XXX values correctly
+./bin/spark-submit --name "My app" --master local[4] --conf spark.eventLog.enabled=talse -
+-conf XXX hadoopexam.jar
+Answer:
+See the explanation for Step by Step Solution and configuration.
+Explanation:
+Solution
+XXX: Mspark.executoi\extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps"
+Notes: ./bin/spark-submit \
+IT Certification Guaranteed, The Easy Way!
+5
+--class <maln-class>
+--master <master-url> \
+--deploy-mode <deploy-mode> \
+-conf <key>=<value> \
+# other options
+< application-jar> \
+[application-arguments]
+Here, conf is used to pass the Spark related contigs which are required for the application to run like
+any specific property(executor memory) or if you want to override the default property which is set
+in Spark-default.conf
+
+7--------------------You have been given below code snippet (do a sum of values by key}, with
+intermediate output.
+val keysWithValuesList = Array("foo=A", "foo=A", "foo=A", "foo=A", "foo=B", "bar=C",
+"bar=D", "bar=D")
+val data = sc.parallelize(keysWithValuesl_ist}
+//Create key value pairs
+val kv = data.map(_.split("=")).map(v => (v(0), v(l))).cache()
+val initialCount = 0;
+val countByKey = kv.aggregateByKey(initialCount)(addToCounts, sumPartitionCounts)
+Now define two functions (addToCounts, sumPartitionCounts) such, which will produce following
+results.
+Output 1
+countByKey.collect
+res3: Array[(String, Int)] = Array((foo,5), (bar,3))
+import scala.collection._
+val initialSet = scala.collection.mutable.HashSet.empty[String]
+val uniqueByKey = kv.aggregateByKey(initialSet)(addToSet, mergePartitionSets)
+Now define two functions (addToSet, mergePartitionSets) such, which will produce following results.
+Output 2:
+uniqueByKey.collect
+res4: Array[(String, scala.collection.mutable.HashSet[String])] = Array((foo,Set(B, A}},
+(bar,Set(C, D}}}
+
+8--------------------
+9--------------------
+10--------------------
+11--------------------
+12--------------------
+

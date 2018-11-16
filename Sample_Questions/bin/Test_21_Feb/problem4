@@ -1,0 +1,42 @@
+You have been given MySQL DB with following details. You have been given
+following product.csv file 
+product.csv productID,productCode,name,quantity,price
+1001,PEN,Pen Red,5000,1.23
+1002,PEN,Pen Blue,8000,1.25
+1003,PEN,Pen Black,2000,1.25
+1004,PEC,Pencil 2B,10000,0.48
+1005,PEC,Pencil 2H,8000,0.49
+1006,PEC,Pencil HB,0,9999.99
+Now accomplish following activities.
+1 . Create a Hive ORC table using SparkSql
+2 . Load this data in Hive table.
+3 . Create a Hive parquet table using SparkSQL and load data in it.
+
+val datrdd= sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_feb21/product.csv")
+
+create table product_21feb (productID int,productCode String,name String,quantity int,price float)
+
+
+case class Product (productID : Int,productCode : String,name : String,quantity : Int,price : Float)
+
+val ProductRdd = datrdd.map(_.split(',')).map(a => Product(a(0).trim.toInt, a(1), a(2), a(3).trim.toInt , a(4).trim.toFloat ))
+
+import org.apache.spark.sql.hive._
+
+val sql = new HiveContext(sc)
+
+val ProductDF = sql.createDataFrame(ProductRdd)
+
+ProductDF.registerTempTable("product12Feb")
+
+//create external table
+sql.sql("create table product_21feb (productID int,productCode String,name String,quantity int,price float) stored as ORC")
+
+
+sql.sql("insert into product_21feb select * from product12Feb")
+
+sql.sql("create table product_21feb_par (productID int,productCode String,name String,quantity int,price float) stored as Parquet")
+
+
+sql.sql("insert into product_21feb_par select * from product12Feb")
+

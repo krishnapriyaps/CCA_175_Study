@@ -1,0 +1,10 @@
+
+val dataList = List( ("Deeapak" , "male", 4000), ("Deepak" , "male", 2000), ("Deepika" , "female", 2000),("Deepak" , "female", 2000), ("Deepak" , "male", 1000) , ("Neeta" , "female", 2000))
+
+val datRdd =  sc.parallelize(dataList).map(l => (l._1+","+l._2, l._3))
+
+datRdd.reduceByKey((a, b) => a+b) collect
+
+
+Array[(String, Int)] = Array((Deepak,female,2000), (Deeapak,male,4000), (Deepika,female,2000), (Deepak,male,3000), (Neeta,female,2000))
+

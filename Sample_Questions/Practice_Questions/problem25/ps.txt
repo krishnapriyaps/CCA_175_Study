@@ -1,0 +1,19 @@
+
+Step1
+CREATE table departments_new (department_id int(11), department_name varchar(45), created_date TiMESTAMP DEFAULT NOW());
+Step2
+insert into departments_new (department_id,department_name) select department_id,department_name from departments;
+Step 3
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --target-dir hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/departments_new --table departments_new -m 1
+
+Step4
+Insert into departments_new values(110, "Civil" , null); 
+Insert into departments_new values(111, "Mechanical" , null); 
+Insert into departments_new values(112, "Automobile" , null); 
+Insert into departments_new values(113, "Pharma" , null);
+Insert into departments_new values(114, "Social Engineering" , null);
+
+Step 5
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --target-dir hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/departments_new --table departments_new -m 1 --append  --check-column created_date --incremental append --last-value '2018-02-08 09:21:13'
+
+sqoop eval -connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --query "select * from retail_db.departments_new"

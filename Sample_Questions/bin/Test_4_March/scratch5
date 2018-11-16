@@ -1,0 +1,21 @@
+user=retail_dba
+password=cloudera
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+
+create table departments_hive2(department_id int, department_name string)
+
+sqoop import --connect "jdbc:mysql://quickstart:3306/retail_db" --username "retail_dba" --password "cloudera" --table departments --target-dir hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_4/departments_hive2 --hive-import --hive-overwrite --hive-table retail_db.departments_hive2	
+
+
+val removeRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_4/Remove.txt").flatMap(_.split("\\s")).collect()
+
+val contentRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_4/Content.txt").flatMap(_.split("\\s"))
+val bv =  sc.broadcast(removeRDD)
+
+val filteredRDD = contentRDD.filter(word => !bv.value.contains(word))
+
+
+sqoop  import-all-tables --connect "jdbc:mysql://quickstart:3306/retail_db" --username "retail_dba" --password "cloudera" --warehouse-dir hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_4/alltables --hive-import --hive-overwrite --hive-database test_4_march --compress  --compression-codec snappy --fields-terminated-by "|" --autoreset-to-one-mapper
+
+test_4_march

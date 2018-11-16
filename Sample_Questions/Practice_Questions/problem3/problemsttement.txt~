@@ -1,0 +1,91 @@
+There is a parent organization called "Acmeshell Group Inc' which has two child companines named QuickTech and HadoopExam. Both companies employee info is given in two separate text file as below. Please do the following activity for emplyee details
+
+quicktech.txt
+1,Alok,Hyd
+2,Krish,HongKong
+3,Jyothi,Mumbai
+4,Athul,Bangalore
+5,Ishan,Gurgaon
+
+hadoopexam.txt
+6,John,Newyork
+7,alp2004
+8,tellme,Mumbai
+9Ganan21,Pune
+10,Mukesh,Chennai
+
+1) A. Which comd will you use to check all the available command line optionss on HDFS and B. How will you get help for inidivual commad
+ A. hadoop
+ B. hadoop fs /or/ hadoop fs -help 
+2) Create a new Empty Directory named Employee using cmd line. And Also create an empty file named in it  quicktect.txt
+ hadoop fs -mkdir Employee
+ hadoop fs -touchz Employee/quicktech.txt
+ hadoop fs -put /home/cloudera/Study/cca_probalems/problem3 Employee
+ #hadoop fs -put /home/cloudera/Study/cca_probalems/problem3/quicktech.txt Employee
+ #put: `Employee/quicktech.txt': File exists
+ hadoop fs -put -f /home/cloudera/Study/cca_probalems/problem3/quicktech.txt Employee
+
+3) Load both companies employee data in Employee Directory (How to override existing file in HDFS) 
+ hadoop fs -put -f /home/cloudera/Study/cca_probalems/problem3/quicktech.txt /home/cloudera/Study/cca_probalems/problem3/hadoopexam.txt Employee
+4) Merge both employees data in a single file called MergedEmployee.txt, merged files should should have new line character at the end of each file content
+ hadoop fs -getmerge -nl Employee/* MergedEmployee.txt
+ cat MergedEmployee.txt
+6,John,Newyork
+7,alp2004
+8,tellme,Mumbai
+9Ganan21,Pune
+10,Mukesh,Chennai
+
+1,Alok,Hyd
+2,Krish,HongKong
+3,Jyothi,Mumbai
+4,Athul,Bangalore
+5,Ishan,Gurgaon
+
+*****
+ hadoop fs -getmerge Employee/* MergedEmployee.txt
+ cat MergedEmployee.txt
+6,John,Newyork
+7,alp2004
+8,tellme,Mumbai
+9Ganan21,Pune
+10,Mukesh,Chennai
+1,Alok,Hyd
+2,Krish,HongKong
+3,Jyothi,Mumbai
+4,Athul,Bangalore
+5,Ishan,Gurgaon
+******
+
+5) Upload Merged file on HDFS and change the file permission on HDFS merged file, so that owner and group member can read and write, other user can read the file
+ hadoop fs -chmod 664 Employee/MergedEmployee.txt
+ hadoop fs -ls Employee
+Found 3 items
+-rw-rw-r--   1 cloudera cloudera        151 2017-12-23 23:41 Employee/MergedEmployee.txt
+-rw-r--r--   1 cloudera cloudera         73 2017-12-23 23:35 Employee/hadoopexam.txt
+-rw-r--r--   1 cloudera cloudera         78 2017-12-23 23:35 Employee/quicktech.tx
+
+u=rwx,g=rx,o=r
+7 5 4
+
+-rw-r--r-- 
+664
+
+-rw-rw-r-x
+665
+
+6) Write a command to export the inividual file as wel as entire directory from HDFS to local file system
+ hadoop fs -get Employee .
+  ls -lrt ~/Employee
+total 12
+-rw-r--r-- 1 cloudera cloudera 151 Dec 23 23:57 MergedEmployee.txt
+-rw-r--r-- 1 cloudera cloudera  73 Dec 23 23:57 hadoopexam.txt
+-rw-r--r-- 1 cloudera cloudera  78 Dec 23 23:57 quicktech.txt
+
+ hadoop fs -get -p Employee .
+ ls -lrt ~/Employee
+total 12
+-rw-r--r-- 1 cloudera cloudera  78 Dec 23 23:35 quicktech.txt
+-rw-r--r-- 1 cloudera cloudera  73 Dec 23 23:35 hadoopexam.txt
+-rw-rw-r-- 1 cloudera cloudera 151 Dec 23 23:41 MergedEmployee.txt
+

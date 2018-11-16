@@ -1,0 +1,9 @@
+create database if not exists family location "/hdfs/family" with dbproperties ('Database creator'='Vedic', 'Database_Created_On'='2016-01-01')
+
+create table if not exists family.father_child (Name String,Sex String,Age String,Father_Name String) row format delimited fields TERMINATED by "|"
+
+load data LOCAL inpath "/home/cloudera/Study/cca_probalems/Test_27_Feb/family" into family.father_child
+
+*********
+
+create table Employee100K2 (select code,description,total_emp,salary from SAMPLE_07 where salary is >= 100000 union all select code,,description,total_emp,salary from SAMPLE_05 where salary is >= 100000 )

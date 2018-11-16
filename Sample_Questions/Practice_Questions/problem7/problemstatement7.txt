@@ -1,0 +1,68 @@
+Problem7
+You have been given following data format file. Each datapoint is separated by '|'.
+Name|Sex|Age|Father_Name
+Example Record
+Anupam|Male|45|Daulat
+
+Create an Hive database named "Family" with following details. You must take care that if database is already exist it should not be created again.
+Comment : "This database will be used for collecting various family data and their daily habits"
+Data File Location : '/hdfs/family'
+Stored other properties : "'Database creator'='Vedic'" , "'Database_Created_On'='2016-01-01'"
+Also write a command to check, whether database has been created or not, with new properties.
+
+****************.........Solution.........****************
+###test data in path : hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/testdata/sampledataproblem7.txt
+
+Create DIR and Set permissions: 
+[cloudera@quickstart ~]$ sudo su hdfs
+bash-4.1$ hadoop fs -mkdir -p  hdfs://quickstart.cloudera:8020/hdfs/family
+bash-4.1$ hadoop fs -chmod 777 hdfs://quickstart.cloudera:8020/hdfs/family
+bash-4.1$ hadoop fs -ls hdfs://quickstart.cloudera:8020/hdfs
+Found 1 items
+drwxrwxrwx   - hdfs supergroup          0 2018-01-26 21:51 hdfs://quickstart.cloudera:8020/hdfs/family
+[cloudera@quickstart ~]$ hadoop fs -chmod 777 hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/testdata
+[cloudera@quickstart ~]$ hadoop fs -ls hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/testdata
+Found 1 items
+-rw-r--r--   1 cloudera cloudera         59 2018-01-26 22:10 hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/testdata/sampledataproblem7.txt
+
+--HIVE BEELINE
+beeline> !connect jdbc:hive2://quickstart.cloudera:10000/default
+scan complete in 3ms
+Connecting to jdbc:hive2://quickstart.cloudera:10000/default
+Enter username for jdbc:hive2://quickstart.cloudera:10000/default: hdfs
+Enter password for jdbc:hive2://quickstart.cloudera:
+
+-- HIVE QUERY to create database: 
+create database if not exists family 
+COMMENT "This database will be used for collecting various family data and their daily habits"
+LOCATION "/hdfs/family"
+WITH DBPROPERTIES ('Database creator'='Vedic','Database_Created_On'='2016-01-01');
+
+-- Show Database  properties
+desc database  extened family;
++----------+----------------------------------------------------+----------------------------------------------+-------------+-------------+----------------------------------------------------+--+
+| db_name  |                      comment                       |                   location                   | owner_name  | owner_type  |                     parameters                     |
++----------+----------------------------------------------------+----------------------------------------------+-------------+-------------+----------------------------------------------------+--+
+| family   | This database will be used for collecting various family data and their daily habits | hdfs://quickstart.cloudera:8020/hdfs/family  | anonymous   | USER        | {Database creator=Vedic, Database_Created_On=2016-01-01} |
++----------+----------------------------------------------------+----------------------------------------------+-------------+-------------+----------------------------------------------------+--+
+1 row selected (0.066 seconds)
+
+-- HIVE QUERY to create table: 
+create table if not exists family.area1families(Name String, Sex String, Age int,Father_Name String)   ROW FORMAT DELIMITED FIELDS TERMINATED BY '|'
+
+-- Load Data into the new table
+LOAD DATA INPATH "hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/testdata/sampledataproblem7.txt" INTO TABLE Family.area1families
+
+-- Select data in table
+select * from Family.area1families;
++---------------------+--------------------+--------------------+----------------------------+--+
+| area1families.name  | area1families.sex  | area1families.age  | area1families.father_name  |
++---------------------+--------------------+--------------------+----------------------------+--+
+| Anupam              | Male               | 45                 | Daulat                     |
+| Dan                 | Male               | 25                 | James                      |
+| Sita                | Female             | 28                 | Ram                        |
++---------------------+--------------------+--------------------+----------------------------+--+
+3 rows selected (0.174 seconds)
+
+
+

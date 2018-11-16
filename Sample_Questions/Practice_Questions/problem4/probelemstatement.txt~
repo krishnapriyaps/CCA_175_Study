@@ -1,0 +1,110 @@
+You have been given MYSQL DB ith following details
+user=retail_db
+password=cloudera
+database=retail_db
+table=retail_db.categories
+jdbc usrl = jdbc:mysql://quickstart:3306/retail_db
+
+Please accomplish following activites
+1. Import data from catagories table where catagory=22 (Data should be stored in categories_subset)
+sqoop eval --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera  --query "describe categories"
+---------------------------------------------------------------------------------------------------------
+| Field                | Type                 | Null | Key | Default              | Extra                | 
+---------------------------------------------------------------------------------------------------------
+| category_id          | int(11)              | NO  | PRI | (null)               | auto_increment       | 
+| category_department_id | int(11)              | NO  |     | (null)               |                      | 
+| category_name        | varchar(45)          | NO  |     | (null)               |                      | 
+---------------------------------------------------------------------------------------------------------
+ sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir categories_subset --where categories.category_id=22
+
+
+2. Import data from catagories table , where catagory>22 (Data should be stored in categories_subset_2)
+ sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir categories_subset_2 --where "categories.category_id>22"
+
+3. Import data from catagories table , where catagory between 1 and 22 (Data should be stored in categories_subset_3)
+ sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir categories_subset_3 --where "categories.category_id>0 and categories.category_id<22"
+
+4. While importing catagories data change the delimiter to "|" (Data should be storied in catagoires_subset_6)
+ DIDNT WORK XXX sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir categories_subset_6 --input-fields-terminated-by "|"
+55,8,International Soccer
+56,8,World Cup Shop
+57,8,MLB Players
+58,8,NFL Players
+ DIDNT WORK XXX sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir categories_subset_6 --enclosed-by  "|"
+|56|,|8|,|World Cup Shop|
+|57|,|8|,|MLB Players|
+|58|,|8|,|NFL Players|
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table categories --target-dir categories_subset_6 --fields-terminated-by "|"
+55|8|International Soccer
+56|8|World Cup Shop
+57|8|MLB Players
+58|8|NFL Players
+
+
+
+
+5. Importing data from catagoires table and restrict the import to categoru_name, category_id columns only with delimiter as "|"
+ sqoop import --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera  --table categories --fields-terminated-by "|" --columns  "category_id,category_name" --target-dir categories_subset_7
+56|World Cup Shop
+57|MLB Players
+58|NFL Players
+
+
+6. Add null values in the table using below SQL statement
+Alter TABLE categories modify category_department_id int(11)
+INSERT INTO Categories values (30,NULL,'Testing');
+ sqoop eval --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera --query "alter table  retail_db.categories modify category_department_id int(12)"
+ sqoop eval --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera --query "desc retail_db.categories"
+---------------------------------------------------------------------------------------------------------
+| Field                | Type                 | Null | Key | Default              | Extra                | 
+---------------------------------------------------------------------------------------------------------
+| category_id          | int(11)              | NO  | PRI | (null)               | auto_increment       | 
+| category_department_id | int(12)              | YES |     | (null)               |                      | 
+| category_name        | varchar(45)          | NO  |     | (null)               |                      | 
+---------------------------------------------------------------------------------------------------------
+
+ sqoop eval --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera --query "INSERT INTO retail_db.categories values (60,NULL,'Testing')"
+ sqoop eval --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera --query "INSERT INTO retail_db.categories values (61,NULL,'NULL')"
+ sqoop eval --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera --query "INSERT INTO retail_db.categories values (62,NULL,NULL)"
+ sqoop eval --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera --query "select * from retail_db.categories"
+| 55          | 8            | International Soccer | 
+| 56          | 8            | World Cup Shop       | 
+| 57          | 8            | MLB Players          | 
+| 58          | 8            | NFL Players          | 
+| 60          | (null)       | Testing              | 
+| 61          | (null)       | NULL                 | 
+-----------------------------------------------------
+
+7. Importing data from catagories table (in categories_subset_17 directory) using '|' delimiter and category_id between 1 and 61 and encode null values for both string and nonstring columns
+ sqoop import --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera  --table categories --fields-terminated-by "|"  --target-dir categories_subset_17 
+55|8|International Soccer
+56|8|World Cup Shop
+57|8|MLB Players
+58|8|NFL Players
+60|null|Testing
+61|null|NULL
+
+ sqoop import --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera  --table categories --fields-terminated-by "|"  --target-dir categories_subset_17 --null-non-string 0 
+55|8|International Soccer
+56|8|World Cup Shop
+57|8|MLB Players
+58|8|NFL Players
+60|0|Testing
+61|0|NULL
+
+sqoop import --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera  --table categories --fields-terminated-by "|"  --target-dir categories_subset_17 --null-non-string 0  --input-null-string "NULL" --null-string "XXX"
+55|8|International Soccer
+56|8|World Cup Shop
+57|8|MLB Players
+58|8|NFL Players
+60|0|Testing
+61|0|NULL
+
+
+
+8. Import entire schema retail_db in a directoyr categories_subset_all_tables
+
+sqoop import-all-tables --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera --warehouse-dir categories_subset_all_tables 
+
+
+

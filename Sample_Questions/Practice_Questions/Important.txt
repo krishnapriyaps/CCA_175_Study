@@ -1,0 +1,523 @@
+Q1-----------------------------------------------------
+You have been given belwo list in scala (name,sex,cost) for each work done.
+List( ("Deepak" , "male", 4000), ("Deepak" , "male", 2000), ("Deepika" , "female",
+2000),("Deepak" , "female", 2000), ("Deepak" , "male", 1000) , ("Neeta" , "female", 2000))
+Now write a Spark program to load this list as an RDD and do the sum of cost for combination of
+name and sex (as key)
+
+Q2-----------------------------------------------------
+You have been given MySQL DB with following details.
+user=retail_dba
+password=cloudera
+database=retail_db
+table=retail_db.orders
+table=retail_db.order_items
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Columns of order table : (orderid , order_date , order_customer_id, order_status)
+Columns of ordeMtems table : (order_item_id , order_item_order_ld ,
+order_item_product_id, order_item_quantity,order_item_subtotal,order_
+item_product_price)
+Please accomplish following activities.
+1. Copy "retail_db.orders" and "retail_db.order_items" table to hdfs in respective directory
+p92_orders and p92 order items .
+2. Join these data using orderid in Spark and Python
+3. Calculate total revenue perday and per order
+4. Calculate total and average revenue for each date. - combineByKey
+-aggregateByKey
+
+Q3-----------------------------------------------------
+
+You have been given MySQL DB with following details.
+user=retail_dba
+password=cloudera
+database=retail_db
+table=retail_db.categories
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Please accomplish following activities.
+1. Import data from categories table, where category=22 (Data should be stored in categories subset)
+2. Import data from categories table, where category>22 (Data should be stored in
+categories_subset_2)
+3. Import data from categories table, where category between 1 and 22 (Data should be
+stored in categories_subset_3)
+4. While importing catagories data change the delimiter to '|' (Data should be stored in
+categories_subset_S)
+5. Importing data from catagories table and restrict the import to category_name,category
+id columns only with delimiter as '|'
+6. Add null values in the table using below SQL statement ALTER TABLE categories
+modify category_department_id int(11); INSERT INTO categories values
+(eO.NULL.'TESTING');
+7. Importing data from catagories table (In categories_subset_17 directory) using '|'
+delimiter and categoryjd between 1 and 61 and encode null values for both string and non
+string columns.
+8. Import entire schema retail_db in a directory categories_subset_all_tables
+
+Q4-----------------------------------------------------
+
+You have to run your Spark application on yarn with each executor
+Maximum heap size to be 512MB and Number of processor cores to allocate on each
+executor will be 1 and Your main application required three values as input arguments V1
+V2 V3.
+Please replace XXX, YYY, ZZZ
+./bin/spark-submit -class com.hadoopexam.MyTask --master yarn-cluster--num-executors 3
+--driver-memory 512m XXX YYY lib/hadoopexam.jarZZZ
+
+Q5-----------------------------------------------------
+
+You have been given 2 files , with the content as given Below
+(spark12/technology.txt)
+(spark12/salary.txt)
+(spark12/technology.txt)
+first,last,technology
+Amit,Jain,java
+Lokesh,kumar,unix
+Mithun,kale,spark
+Rajni,vekat,hadoop
+Rahul,Yadav,scala
+(spark12/salary.txt)
+first,last,salary
+Amit,Jain,100000
+Lokesh,kumar,95000
+Mithun,kale,150000
+Rajni,vekat,154000
+Rahul,Yadav,120000
+Write a Spark program, which will join the data based on first and last name and save the
+joined results in following format, first Last.technology.salary
+
+Q6-----------------------------------------------------
+
+You have been given sample data as below in a file called spark15/file1.txt
+3070811,1963,1096,,"US","CA",,1,
+3022811,1963,1096,,"US","CA",,1,56
+3033811,1963,1096,,"US","CA",,1,23
+Below is the code snippet to process this tile.
+val field= sc.textFile("spark15/f ilel.txt")
+val mapper = field.map(x=> A)
+mapper.map(x => x.map(x=> {B})).collect
+Please fill in A and B so it can generate below final output
+Array(Array(3070811,1963,109G, 0, "US", "CA", 0,1, 0)
+,Array(3022811,1963,1096, 0, "US", "CA", 0,1, 56)
+,Array(3033811,1963,1096, 0, "US", "CA", 0,1, 23)
+)
+
+Q7-----------------------------------------------------
+
+You have been given below code snippet.
+val pairRDDI = sc.parallelize(List( ("cat",2), ("cat", 5), ("book", 4),("cat", 12))) val
+pairRDD2 = sc.parallelize(List( ("cat",2), ("cup", 5), ("mouse", 4),("cat", 12)))
+operation1
+Write a correct code snippet for operationl which will produce desired output, shown below.
+Array[(String, (Option[lnt], Option[lnt]))] = Array((book,(Some(4},None)),
+(mouse,(None,Some(4))), (cup,(None,Some(5))), (cat,(Some(2),Some(2)),
+(cat,(Some(2),Some(12))), (cat,(Some(5),Some(2))), (cat,(Some(5),Some(12))),
+(cat,(Some(12),Some(2))), (cat,(Some(12),Some(12)))J
+
+Q8-----------------------------------------------------
+
+You have been given below patient data in csv format,
+patientID,name,dateOfBirth,lastVisitDate
+1001,Ah Teck,1991-12-31,2012-01-20
+1002,Kumar,2011-10-29,2012-09-20
+1003,Ali,2011-01-30,2012-10-21
+Accomplish following activities.
+1 . Find all the patients whose lastVisitDate between current time and '2012-09-15'
+2 . Find all the patients who born in 2011
+3 . Find all the patients age
+4 . List patients whose last visited more than 60 days ago
+5 . Select patients 18 years old or younger
+
+Q9-----------------------------------------------------
+
+Your spark application required extra Java options as below. -
+XX:+PrintGCDetails-XX:+PrintGCTimeStamps
+Please replace the XXX values correctly
+./bin/spark-submit --name "My app" --master local[4] --conf spark.eventLog.enabled=talse -
+-conf XXX hadoopexam.jar
+
+*********_____________________Answer:
+See the explanation for Step by Step Solution and configuration.
+Explanation:
+Solution
+XXX: Mspark.executoi\extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps"
+Notes: ./bin/spark-submit \
+
+--class <maln-class>
+--master <master-url> \
+--deploy-mode <deploy-mode> \
+-conf <key>=<value> \
+# other options
+< application-jar> \
+[application-arguments]
+Here, conf is used to pass the Spark related contigs which are required for the application to run like
+any specific property(executor memory) or if you want to override the default property which is set
+in Spark-default.conf
+
+Q10-----------------------------------------------------
+
+You have been given MySQL DB with following details. You have been given
+following product.csv file product.csv productID,productCode,name,quantity,price
+1001,PEN,Pen Red,5000,1.23
+1002,PEN,Pen Blue,8000,1.25
+1003,PEN,Pen Black,2000,1.25
+1004,PEC,Pencil 2B,10000,0.48
+1005,PEC,Pencil 2H,8000,0.49
+1006,PEC,Pencil HB,0,9999.99
+Now accomplish following activities.
+1 . Create a Hive ORC table using SparkSql
+2 . Load this data in Hive table.
+3 . Create a Hive parquet table using SparkSQL and load data in it.
+4. Select all the products which has product code as null
+5. Select all the products, whose name starts with Pen and results should be order by Price
+descending order.
+6. Select all the products, whose name starts with Pen and results should be order by
+Price descending order and quantity
+
+Q11-----------------------------------------------------
+You have been given a database named retail_db with following detail. Which consists 6 tables and datamodel you can see in image.
+user=retail_dba 
+password=cloudera 
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+1. Import the entire database in a file format this good for analytical applications on Hadoop e.g. group your data in columns and should be able to query this data using Impala.
+Also, while importing to save space you do compression using snappy codec.
+2. In impala write the query, which can produce 5 Most popular product categories and save the results in HadoopExam/best_categories.csv in hdfs .
+3. In Impala write the query, which can produce top 10 revenue generating products and save the results in HadoopExam/best_products.csv  in hdfs .
+
+Q12-----------------------------------------------------
+You have been given following data format file. Each datapoint is separated by '|'.
+Name|Sex|Age|Father_Name
+Example Record
+Anupam|Male|45|Daulat
+Create an Hive database named "Family" with following details. You must take care that if database is already exist it should not be created again.
+Comment : "This database will be used for collecting various family data and their daily habits"
+Data File Location : '/hdfs/family'
+Stored other properties : "'Database creator'='Vedic'" , "'Database_Created_On'='2016-01-01'"
+Also write a command to check, whether database has been created or not, with new properties.
+
+Q12-----------------------------------------------------
+Problem Scenerio 7 :  You have been given following data format file. Each datapoint is separated by '|'.
+Name|Sex|Age|Father_Name
+Example Record
+Anupam|Male|45|Daulat
+Create an Hive table named "Family_Head" with following details.
+ - Table must be created in existing database named  "Family"
+ - You must take care that if table is already exist it should not be created again.
+ - Table must be created inside Hive warehouse directory and should not be an external table.
+
+Q13-----------------------------------------------------
+You have been given below code snippet (do a sum of values by key}, with
+intermediate output.
+val keysWithValuesList = Array("foo=A", "foo=A", "foo=A", "foo=A", "foo=B", "bar=C",
+"bar=D", "bar=D")
+val data = sc.parallelize(keysWithValuesl_ist}
+//Create key value pairs
+val kv = data.map(_.split("=")).map(v => (v(0), v(l))).cache()
+val initialCount = 0;
+val countByKey = kv.aggregateByKey(initialCount)(addToCounts, sumPartitionCounts)
+Now define two functions (addToCounts, sumPartitionCounts) such, which will produce following
+results.
+Output 1
+countByKey.collect
+res3: Array[(String, Int)] = Array((foo,5), (bar,3))
+import scala.collection._
+val initialSet = scala.collection.mutable.HashSet.empty[String]
+val uniqueByKey = kv.aggregateByKey(initialSet)(addToSet, mergePartitionSets)
+Now define two functions (addToSet, mergePartitionSets) such, which will produce following results.
+Output 2:
+uniqueByKey.collect
+res4: Array[(String, scala.collection.mutable.HashSet[String])] = Array((foo,Set(B, A}},
+(bar,Set(C, D}}}
+
+Q14-----------------------------------------------------
+Problem Scenario 12 : You have been given following mysql database details as well as
+other info.
+user=retail_dba
+password=cloudera
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Please accomplish following.
+1. Create a table in retailedb with following definition.
+CREATE table departments_new (department_id int(11), department_name varchar(45),
+created_date T1MESTAMP DEFAULT NOW());
+2. Now isert records from departments table to departments_new
+3. Now import data from departments_new table to hdfs.
+4. Insert following 5 records in departmentsnew table. Insert into departments_new
+values(110, "Civil" , null); Insert into departments_new values(111, "Mechanical" , null);
+Insert into departments_new values(112, "Automobile" , null); Insert into departments_new
+values(113, "Pharma" , null);
+Insert into departments_new values(114, "Social Engineering" , null);
+5. Now do the incremental import based on created_date column.
+Answer: See
+
+Q15-----------------------------------------------------
+
+Problem Scenario 45 : You have been given 2 files , with the content as given Below
+(spark12/technology.txt)
+(spark12/salary.txt)
+(spark12/technology.txt)
+first,last,technology
+Amit,Jain,java
+Lokesh,kumar,unix
+Mithun,kale,spark
+Rajni,vekat,hadoop
+Rahul,Yadav,scala
+(spark12/salary.txt)
+first,last,salary
+Amit,Jain,100000
+Lokesh,kumar,95000
+Mithun,kale,150000
+Rajni,vekat,154000
+Rahul,Yadav,120000
+Write a Spark program, which will join the data based on first and last name and save the
+joined results in following format, first Last.technology.salary
+
+Q16-----------------------------------------------------
+Problem Scenario 31 : You have given following two files
+1. Content.txt: Contain a huge text file containing space separated words.
+2. Remove.txt: Ignore/filter all the words given in this file (Comma Separated).
+Write a Spark program which reads the Content.txt file and load as an RDD, remove all the
+words from a broadcast variables (which is loaded as an RDD of words from Remove.txt).
+And count the occurrence of the each word and save it as a text file in HDFS.
+Content.txt
+Hello this is ABCTech.com
+This is TechABY.com
+Apache Spark Training
+This is Spark Learning Session
+Spark is faster than MapReduce
+Remove.txt
+Hello, is, this, the
+
+Q17-----------------------------------------------------
+Problem Scenario 35 : You have been given a file named spark7/EmployeeName.csv
+(id,name).
+EmployeeName.csv
+E01,Lokesh
+E02,Bhupesh
+E03,Amit
+E04,Ratan
+E05,Dinesh
+E06,Pavan
+E07,Tejas
+E08,Sheela
+E09,Kumar
+E10,Venkat
+1. Load this file from hdfs and sort it by name and save it back as (id,name) in results directory.
+However, make sure while saving it should be able to write In a single file.
+
+Q18-----------------------------------------------------
+Problem Scenario 16 : You have been given following mysql database details as well as
+other info.
+user=retail_dba
+password=cloudera
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Please accomplish below assignment.
+1. Create a table in hive as below.
+create table departments_hive(department_id int, department_name string);
+2. Now import data from mysql table departments to this hive table. Please make sure that
+data should be visible using below hive command, select" from departments_hive
+
+Q19-----------------------------------------------------
+NO.1: You have been given MySQL DB with following details.
+user=retail_dba ; password=cloudera ; database=retail_db; table=retail_db.categories
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Please accomplish following activities.
+1. Connect MySQL DB and check the content of the tables.
+2. Copy "retail_db.categories" table to hdfs, without specifying directory name.
+3. Copy "retail_db.categories" table to hdfs, in a directory name "categories_target".
+4. Copy "retail_db.categories" table to hdfs, in a warehouse directory name "categories_warehouse"
+
+Q20-----------------------------------------------------
+Problem Scenario 2 : There is a parent organization called "Acmeshell Group Inc", which has two child companies named QuickTechie Inc and HadoopExam Inc. 
+Both compnaies employee information is given in two separate text file as below. Please do the following activity for employee details.
+quicktechie.txt
+1,Alok,Hyderabad
+2,Krish,Hongkong
+3,Jyoti,Mumbai
+4,Atul,Banglore
+5,Ishan,Gurgaon
+
+hadoopexam.txt
+6,John,Newyork
+7,alp2004,California
+8,tellme,Mumbai
+9,Gagan21,Pune
+10,Mukesh,Chennai
+
+1. Which command will you use to check all the available command line options on HDFS and How will you get the Help for individual command.
+2. Create a new Empty Directory named Employee using Command line. And also create an empty file named in it quicktechie.txt 
+3. Load both companies Employee data in Employee directory (How to override existing file in HDFS).
+4. Merge both the Employees data in a Single file called MergedEmployee.txt, merged files should have new line character at the end of each file content.
+5. Upload merged file on HDFS and change the file permission on HDFS merged file , so that owner and group member can read and write, other user can read the file.
+6. Write a command to export the individual file as well as entire directory from HDFS to local file System.
+
+Q21-----------------------------------------------------
+Problem Scenerio 5: You have been given following data format file. Each datapoint is separated by '|'.
+Name|Location1,Location2...Location5|Sex,Age|Father_Name:Number_of_Child
+Example Record
+Anupam|Delhi,Mumbai,Chennai|Male,45|Daulat:4
+Write a Hive DDL script to create a table named "FamilyHead" which should be capable of holding these data. Also note that it should use complex data type e.g. Map, Array,Struct
+
+Q22-----------------------------------------------------
+Problem Scenario 80 : You have been given MySQL DB with following details.
+user=retail_dba; password=cloudera; database=retail_db; table=retail_db.products
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+Columns of products table : (product_id | product_category_id | product_name |
+product_description | product_price | product_image )
+Please accomplish following activities.
+1. Copy "retaildb.products" table to hdfs in a directory p93_products
+2. Now sort the products data sorted by product price per category, use productcategoryid
+colunm to group by category
+
+Q22-----------------------------------------------------
+Problem Scenario 8 : You already have a table name "SAMPLE_07" in a default schema. With following structure.
+
+code string 
+description string 
+total_emp int 
+salary int 
+
+Sample data as below.
+
+sample_07.code sample_07.description sample_07.total_emp sample_07.salary
+00-0000 All Occupations 134354250 40690
+11-0000 Management occupations 6003930 96150
+
+
+Create Hive table and data as below.
+
+CREATE TABLE SAMPLE_07
+(code string ,
+description string ,
+total_emp int ,
+salary int 
+);
+
+INSERT INTO SAMPLE_07 VALUES ('00-0000','All Occupations' ,134354250,40690);
+INSERT INTO SAMPLE_07 VALUES ('11-0000','Management occupations' ,6003930,96150);
+INSERT INTO SAMPLE_07 VALUES ('02-0000','All Occupations' ,134354250,140690);
+INSERT INTO SAMPLE_07 VALUES ('12-0000','Management occupations' ,6003930,99150);
+INSERT INTO SAMPLE_07 VALUES ('03-0000','All Occupations' ,134354250,140690);
+INSERT INTO SAMPLE_07 VALUES ('13-0000','Management occupations' ,6003930,101150);
+
+Q23-----------------------------------------------------
+Problem Scenario 9 : You already have two tables (Hive) name "SAMPLE_07" and "SAMPLE_08" in a default schema. With following structure (both the tables have same structure).
+
+code string 
+description string 
+total_emp int 
+salary int 
+
+Create another table named Employee100K2 in a Family schema, which has all the employees whose salary is >= 100000 from both the tables.
+Create required Hive table as below.
+
+CREATE TABLE SAMPLE_08
+(code string ,
+description string ,
+total_emp int ,
+salary int 
+);
+
+INSERT INTO SAMPLE_08 VALUES ('20-0000','All Occupations' ,134354250,40690);
+INSERT INTO SAMPLE_08 VALUES ('11-0000','Management occupations' ,6003930,96150);
+INSERT INTO SAMPLE_08 VALUES ('22-0000','All Occupations' ,134354250,140690);
+INSERT INTO SAMPLE_08 VALUES ('22-1000','Management occupations' ,6003930,99150);
+INSERT INTO SAMPLE_08 VALUES ('23-0000','All Occupations' ,134354250,140690);
+INSERT INTO SAMPLE_08 VALUES ('23-1000','Management occupations' ,6003930,101150);
+
+Q24-----------------------------------------------------
+Problem Scenario 5 : You have been given following mysql database details.
+
+user=retail_dba 
+password=cloudera 
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+
+Please accomplish following activities.
+
+1. List all the tables using sqoop command from retail_db
+2. Write simple sqoop eval command to check whether you have permission to read database tables or not.
+3. Import all the tables as avro files in /user/hive/warehouse/retail_cca174.db
+4. Import departments table as a text file in /user/cloudera/departments.
+
+Q25-----------------------------------------------------
+Problem scenario 17:  You have been given following mysql database details as well as other info.
+
+user=retail_dba 
+password=cloudera 
+database=retail_db
+jdbc URL = jdbc:mysql://quickstart:3306/retail_db
+
+Please accomplish following.
+
+1. Import departments table in a directory called departments.
+2. Once import is done, please isert following 5 records in departments mysql table.
+Insert into departments(10, physics);
+Insert into departments(11, Chemistry);
+Insert into departments(12, Maths);
+Insert into departments(13, Science);
+Insert into departments(14, Engineering);
+3. Now import only new inserted records and append to existring directory , which has been created in first step.
+
+Q26-----------------------------------------------------
+Problem Scenario 23 : You have given a CSV file, which contain Employee and Salary data. You need to accomplish following.
+
+1. Load this file to HDFS.
+2. Create two tables in MySQL named as EMPLOYEE and SALARY.
+3. Once file in HDFS load in RDBMS using Sqoop on above two tables.
+3. Create an Avro file for this EMPLOYEE and SALARY tables.
+4. Extract the Schema from this Avro file (And without downloading AVRO file locally).
+
+Sample data.
+EMPLOYEE.csv <emp_id, Name>
+1,Abby
+2,Katherin
+3,Vera
+SALARY.csv <emp_id, Salary>
+1,3050.00
+2,10000.00
+3,4000.50
+-----------------------------------------------------
+-----------------------------------------------------
+
+https://github.com/Pushkr/Apache-Spark-Hands-On/blob/master/problem6/ProblemStatement.md
+
+https://github.com/Pushkr/Apache-Spark-Hands-On/blob/master/problem5/problem_statement
+
+-----------------------------------------------------
+CCA 175 : attempt 1
+
+problem1 : import table data into HDFS using sqoop command. data was comma separated fields. Approximately 25mil lines. 
+
+problem2 : export HDFS data into specified mysql table. Maintain the data record format. Data was in tab separated format. Aprox 25mil lines.
+
+problem3 : Create a table employee in problem3 database. Data was stored in specific HDFS location. Point the table to existing
+           data in HDFS. Data was in comma separated format
+
+problem4 :  create table employee in problem4 database and load data which was stored in HDFS directory in PARQUET format. Table coulmns 
+          in problem3 scenario were not exactly same as problem 4. Last two columns 'hiredate' and 'birthdate' were swapped.
+
+problem5 : Create a employee table which is paritioned by 'state' column and load the data which was saved in HDFS directory into that table.
+         sql template was provided. template contained basic commands statements like "CREATE EXTERNAL TABLE... #to-do", 
+         "INSERT INTO EMPLOYEE #TO-DO" and  set command to set HIVE in nonstrict mode. 
+          After first attempt, execution throwed error saying parition limit is set to 100.
+          
+problem6 : Scala program , This was simple map and filter operation program. Task was to read files stored in specific location,
+           data was in comma separated format. Data was employee table and filtering operation was to find employee's in TEXAS state.
+           Scala program template was provided and to run the program on cluster a run.sh file was provided. 
+           
+           Note: At my first attempt I wasnt aware of how to run shell script. 
+           to run shell script, first mark the file as executable using "chmod +x run.sh"
+           and then run the script using fully qualified address on that file on command line , like -
+           $: /home/user/problem6/run.sh
+           
+problem7 : Python program , Again simple map and filter opeation program. 
+
+problem8 : scala program , task was to filter and map some data from employee table and then join these two datasets using 
+           join/union operation. There was some lines with keyBy() function, which I wasnt aware of at the time of exam.
+
+problem 9 : python program. I dont think i read this problem throughly but there was sorting and aggrgation involved.
+
+problem 10 : There was a script given to run. Problem was script was throwing AVRODATAEXCEPTION. 
+             This script contained 'hive -e 'select * from employee' command. Table was pointing to specific
+             schema stored in hdfs location as JSON file. Task was to update the JSON in such a way that hive query will 
+             run without errors. It was simple change from "int" to "long" in JSON file.

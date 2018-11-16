@@ -1,0 +1,16 @@
+sqoop import --connect jdbc:mysql://quickstart:3306/retail_db --username retail_dba --password cloudera --table products --target-dir hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_12/p93_products --fields-terminated-by "|" 
+
+
+case class products(product_id : Int , product_category_id :Int, product_name: String, product_description:String, product_price :Double, product_image:String)
+
+val dataRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_12/p93_products").map(_.split('|')).map(a => products(a(0).trim.toInt, a(1).trim.toInt, a(2),a(3),a(4).trim.toDouble, a(5)))
+
+
+val dataRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/revist_march_12/p93_products").map(l => (l.split('|')(1), (l.split('|')(4),l)))
+
+val sortedRDD = dataRDD.groupByKey().mapValues(listItr => listItr.toList.sortBy(_._1).map(_._2))
+
+
+
+
+
