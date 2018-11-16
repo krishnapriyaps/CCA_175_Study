@@ -1,0 +1,5 @@
+
+//Text file
+val textRDD = sc.textFile("hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/testdata/salary.txt")
+
+val seqRDD = sc.sequenceFile("hdfs://quickstart.cloudera:8020/user/cloudera/spark_experiments/writerddtosequencefile/part*", classOf[String], classOf[String])

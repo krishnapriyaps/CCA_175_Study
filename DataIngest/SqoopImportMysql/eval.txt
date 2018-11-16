@@ -1,35 +1,43 @@
-sqoop eval
+[cloudera@quickstart ~]$ sqoop help eval
+Warning: /usr/lib/sqoop/../accumulo does not exist! Accumulo imports will fail.
+Please set $ACCUMULO_HOME to the root of your Accumulo installation.
+17/12/23 04:57:29 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6-cdh5.10.0
+usage: sqoop eval [GENERIC-ARGS] [TOOL-ARGS]
 
-# IMPORTANT OPTIONS
---connect <jdbc-uri>   
--P        			# Read password from console
---password <password>           # Set authentication
---username <username>
--e,--query <statement> 
+Common arguments:
+   --connect <jdbc-uri>                         Specify JDBC connect
+                                                string
+   --connection-manager <class-name>            Specify connection manager
+                                                class name
+   --connection-param-file <properties-file>    Specify connection
+                                                parameters file
+   --driver <class-name>                        Manually specify JDBC
+                                                driver class to use
+   --hadoop-home <hdir>                         Override
+                                                $HADOOP_MAPRED_HOME_ARG
+   --hadoop-mapred-home <dir>                   Override
+                                                $HADOOP_MAPRED_HOME_ARG
+   --help                                       Print usage instructions
+   --oracle-escaping-disabled <boolean>         Disable the escaping
+                                                mechanism of the
+                                                Oracle/OraOop connection
+                                                managers
+-P                                              Read password from console
+   --password <password>                        Set authentication
+                                                password
+   --password-alias <password-alias>            Credential provider
+                                                password alias
+   --password-file <password-file>              Set authentication
+                                                password file path
+   --relaxed-isolation                          Use read-uncommitted
+                                                isolation for imports
+   --skip-dist-cache                            Skip copying jars to
+                                                distributed cache
+   --temporary-rootdir <rootdir>                Defines the temporary root
+                                                directory for the import
+   --username <username>                        Set authentication
+                                                username
+   --verbose                                    Print more information
+                                                while working
 
-
-# Other options 
-# RDBS Connection related options - Not required for MYSQL
---driver <class-name> 
---connection-manager <class-name> 
---connection-param-file <properties-file> 
---oracle-escaping-disabled <boolean>
-
-# Hadoop related options
---hadoop-home <hdir>
---hadoop-mapred-home
-
-# Security related options
---password-alias <password-alias>         # Credential provider password alias
---password-file <password-file>           # Set authentication password file path
-
-
-#Generic Hadoop command-line arguments: (must preceed any tool-specific arguments)
--conf <configuration file>     specify an application configuration file
--D <property=value>            use value for given property
--fs <local|namenode:port>      specify a namenode
--jt <local|resourcemanager:port>    specify a ResourceManager
--files <comma separated list of files>    specify comma separated files to be copied to the map reduce cluster
--libjars <comma separated list of jars>    specify comma separated jar files to include in the classpath.
--archives <comma separated list of archives>    specify comma separated archives to be unarchived on the compute machines.
 

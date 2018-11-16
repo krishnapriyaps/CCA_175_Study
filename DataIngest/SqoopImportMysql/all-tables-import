@@ -1,0 +1,19 @@
+sqoop import-all-tables --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera  --warehouse-dir sqoop  --hive-overwrite --hive-database retail_db --verbose 
+
+sqoop import-all-tables --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera  --hive-import --hive-overwrite --hive-database retail_db  --warehouse-dir sqoop  --verbose 
+
+//Hive table aready exist error
+sqoop import-all-tables --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera  --warehouse-dir sqoop --hive-import  --create-hive-table --hive-database retail_db --hive-table test --verbose   --autoreset-to-one-mapper 
+
+sqoop import-all-tables --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera  --warehouse-dir sqoop1 --hive-import  --hive-overwrite --hive-database retail_db --hive-table test --verbose   --autoreset-to-one-mapper
+
+
+sqoop import-all-tables --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera  --warehouse-dir sqoop --hive-import  --hive-overwrite --hive-database retail_db --verbose   --autoreset-to-one-mapper  --null-non-string '\\N'  --null-string '\\N' --fields-terminated-by "#" --compression-codec lz4
+
+
+sqoop import --connect  jdbc:mysql://quickstart:3306/retail_db  --username retail_dba --password  cloudera  --warehouse-dir sqoop1 --hive-import  --hive-overwrite --hive-database retail_db --verbose   --autoreset-to-one-mapper  --null-non-string '\\N'  --null-string '\\N' --fields-terminated-by "#" --compression-codec lz4 --table departments
+
+
+
+
+
