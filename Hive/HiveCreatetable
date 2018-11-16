@@ -1,0 +1,12 @@
+create external table customer_10 (
+  `customer_id` int ,
+  `customer_fname` string ,
+  `customer_lname` string ,
+  `customer_email` string ,
+  `customer_password` string ,
+  `customer_street` string,
+  `customer_city` string ,
+  `customer_state` string ,
+  `customer_zipcode` string 
+) row format delimited fields terminated by ',' Location "hdfs://quickstart.cloudera:8020/user/cloudera/sqoop/customers_10";
+

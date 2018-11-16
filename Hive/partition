@@ -1,0 +1,9 @@
+CREATE TABLE `categories_part`(
+  `category_id` int,  
+  `category_name` string)
+COMMENT 'Imported by sqoop on 2018/02/27 08:52:14'
+PARTITIONED BY  (`category_department_id` int)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '|'
+
+set hive.exec.dynamic.partition.mode=nonstrict;
+hive> insert into categories_part PARTITION (category_department_id) select category_id,category_name,category_department_id from categories;
